@@ -52,23 +52,23 @@ bool Tower::rotate()
     return rotateBehavior->rotate(*this, destination);
 }
 
-Nexus::Nexus(Side side, sf::Sprite sprite, float HP, float FOV, float DEF, sf::Time interval):
-    Tower(side, sprite, HP, FOV, DEF),
-    generateInterval(interval)
+Nexus::Nexus(Side side, sf::Sprite sprite, float HP, float FOV, float DEF):
+    Tower(side, sprite, HP, FOV, DEF)
 {
 
 if(side == Side::Blue)
 {
     //middle
-    midRoute[0] = {sf::Vector2f(640, 197), sf::Vector2f(640, 738), sf::Vector2f(640, 1440), sf::Vector2f(640, 1950), sf::Vector2f(640, 2683)};
+    // midRoute[0] = {sf::Vector2f(640, 197), sf::Vector2f(640, 738), sf::Vector2f(640, 1440), sf::Vector2f(640, 1950), sf::Vector2f(640, 2683)};
     // midRoute[1] = {sf::Vector2f(700, 197), sf::Vector2f(700, 738), sf::Vector2f(700, 1440), sf::Vector2f(700, 1950), sf::Vector2f(700, 2683)};
+    midRoute[0] = Parameter::blueMidRoute;
     midRoute[1] = midRoute[0];
     midRoute[2] = midRoute[0];
     
     for(size_t i = 0; i < midRoute[0].size(); i++)
     {
-        midRoute[1][i].x -= 60;
-        midRoute[2][i].x += 60;
+        midRoute[1][i].x -= Parameter::soldierGap;
+        midRoute[2][i].x += Parameter::soldierGap;
     }
 
     
@@ -87,21 +87,22 @@ if(side == Side::Blue)
     midSoldiers[2].setPosition(midRoute[2][0]);
     
 //left
-    leftRoute[0] = {sf::Vector2f(548, 84), sf::Vector2f(105, 289), sf::Vector2f(105, 1440), sf::Vector2f(105, 2591), sf::Vector2f(548, 2796)};
+    // leftRoute[0] = {sf::Vector2f(548, 84), sf::Vector2f(105, 289), sf::Vector2f(105, 1440), sf::Vector2f(105, 2591), sf::Vector2f(548, 2796)};
+    leftRoute[0] = Parameter::blueLeftRoute;
     leftRoute[1] = leftRoute[0];
     leftRoute[2] = leftRoute[0];
 
-    leftRoute[1][0].y -= 60;
-    leftRoute[2][0].y += 60;
+    leftRoute[1][0].y -= Parameter::soldierGap;
+    leftRoute[2][0].y += Parameter::soldierGap;
 
     for(int i = 1; i < 4; i++)
     {
-        leftRoute[1][i].x -= 60;
-        leftRoute[2][i].x += 60;
+        leftRoute[1][i].x -= Parameter::soldierGap;
+        leftRoute[2][i].x += Parameter::soldierGap;
     }
 
-    leftRoute[1][4].y += 60;
-    leftRoute[2][4].y -= 60;
+    leftRoute[1][4].y += Parameter::soldierGap;
+    leftRoute[2][4].y -= Parameter::soldierGap;
 
     leftSoldiers[0].setTexture(AssetManager::getTexture("./pictures/blueSoldier2.png"));
     leftSoldiers[0].setScale(1.8,1.8);
@@ -115,21 +116,22 @@ if(side == Side::Blue)
     leftSoldiers[2].setPosition(leftRoute[2][0]);
 
 //right
-    rightRoute[0] = {sf::Vector2f(755, 84), sf::Vector2f(1175, 289), sf::Vector2f(1175, 1440), sf::Vector2f(1175, 2591), sf::Vector2f(755, 2796)};
+    //rightRoute[0] = {sf::Vector2f(755, 84), sf::Vector2f(1175, 289), sf::Vector2f(1175, 1440), sf::Vector2f(1175, 2591), sf::Vector2f(755, 2796)};
+    rightRoute[0] = Parameter::blueRightRoute;
     rightRoute[1] = rightRoute[0];
     rightRoute[2] = rightRoute[0];
 
-    rightRoute[1][0].y += 60;
-    rightRoute[2][0].y -= 60;
+    rightRoute[1][0].y += Parameter::soldierGap;
+    rightRoute[2][0].y -= Parameter::soldierGap;
 
     for(int i = 1; i < 4; i++)
     {
-        rightRoute[1][i].x -= 60;
-        rightRoute[2][i].x += 60;
+        rightRoute[1][i].x -= Parameter::soldierGap;
+        rightRoute[2][i].x += Parameter::soldierGap;
     }
 
-    rightRoute[1][4].y -= 60;
-    rightRoute[2][4].y += 60;
+    rightRoute[1][4].y -= Parameter::soldierGap;
+    rightRoute[2][4].y += Parameter::soldierGap;
 
 
     rightSoldiers[0].setTexture(AssetManager::getTexture("./pictures/blueSoldier2.png"));
@@ -150,15 +152,16 @@ if(side == Side::Blue)
 else if(side == Side::Red)
 {
     //middle
-    midRoute[0] = {sf::Vector2f(640, 2683), sf::Vector2f(640, 2142), sf::Vector2f(640, 1440), sf::Vector2f(640, 930), sf::Vector2f(640, 197)};
+    // midRoute[0] = {sf::Vector2f(640, 2683), sf::Vector2f(640, 2142), sf::Vector2f(640, 1440), sf::Vector2f(640, 930), sf::Vector2f(640, 197)};
     // midRoute[1] = {sf::Vector2f(700, 197), sf::Vector2f(700, 738), sf::Vector2f(700, 1440), sf::Vector2f(700, 1950), sf::Vector2f(700, 2683)};
+    midRoute[0] = Parameter::redMidRoute;
     midRoute[1] = midRoute[0];
     midRoute[2] = midRoute[0];
     
     for(size_t i = 0; i < midRoute[0].size(); i++)
     {
-        midRoute[1][i].x -= 60;
-        midRoute[2][i].x += 60;
+        midRoute[1][i].x -= Parameter::soldierGap;
+        midRoute[2][i].x += Parameter::soldierGap;
     }
 
     
@@ -177,21 +180,22 @@ else if(side == Side::Red)
     midSoldiers[2].setPosition(midRoute[2][0]);
     
 //left
-    leftRoute[0] = {sf::Vector2f(548, 2796), sf::Vector2f(105, 2591), sf::Vector2f(105, 1440), sf::Vector2f(105, 289), sf::Vector2f(548, 84)};
+    // leftRoute[0] = {sf::Vector2f(548, 2796), sf::Vector2f(105, 2591), sf::Vector2f(105, 1440), sf::Vector2f(105, 289), sf::Vector2f(548, 84)};
+    leftRoute[0] = Parameter::redLeftRoute;
     leftRoute[1] = leftRoute[0];
     leftRoute[2] = leftRoute[0];
 
-    leftRoute[1][0].y += 60;
-    leftRoute[2][0].y -= 60;
+    leftRoute[1][0].y += Parameter::soldierGap;
+    leftRoute[2][0].y -= Parameter::soldierGap;
 
     for(int i = 1; i < 4; i++)
     {
-        leftRoute[1][i].x -= 60;
-        leftRoute[2][i].x += 60;
+        leftRoute[1][i].x -= Parameter::soldierGap;
+        leftRoute[2][i].x += Parameter::soldierGap;
     }
 
-    leftRoute[1][4].y -= 60;
-    leftRoute[2][4].y += 60;
+    leftRoute[1][4].y -= Parameter::soldierGap;
+    leftRoute[2][4].y += Parameter::soldierGap;
 
     leftSoldiers[0].setTexture(AssetManager::getTexture("./pictures/redSoldier2.png"));
     leftSoldiers[0].setScale(1.8,1.8);
@@ -205,21 +209,22 @@ else if(side == Side::Red)
     leftSoldiers[2].setPosition(leftRoute[2][0]);
 
 //right
-    rightRoute[0] = {sf::Vector2f(755, 2796), sf::Vector2f(1175, 2591), sf::Vector2f(1175, 1440), sf::Vector2f(1175, 289), sf::Vector2f(755, 84)};
+    //rightRoute[0] = {sf::Vector2f(755, 2796), sf::Vector2f(1175, 2591), sf::Vector2f(1175, 1440), sf::Vector2f(1175, 289), sf::Vector2f(755, 84)};
+    rightRoute[0] = Parameter::redRightRoute;
     rightRoute[1] = rightRoute[0];
     rightRoute[2] = rightRoute[0];
 
-    rightRoute[1][0].y -= 60;
-    rightRoute[2][0].y += 60;
+    rightRoute[1][0].y -= Parameter::soldierGap;
+    rightRoute[2][0].y += Parameter::soldierGap;
 
     for(int i = 1; i < 4; i++)
     {
-        rightRoute[1][i].x -= 60;
-        rightRoute[2][i].x += 60;
+        rightRoute[1][i].x -= Parameter::soldierGap;
+        rightRoute[2][i].x += Parameter::soldierGap;
     }
 
-    rightRoute[1][4].y += 60;
-    rightRoute[2][4].y -= 60;
+    rightRoute[1][4].y += Parameter::soldierGap;
+    rightRoute[2][4].y -= Parameter::soldierGap;
 
 
     rightSoldiers[0].setTexture(AssetManager::getTexture("./pictures/redSoldier2.png"));
@@ -244,6 +249,24 @@ Nexus::~Nexus()
 }
 
 void Nexus::generateSoldiers()
+{
+    generate();
+    sf::Clock clock;
+	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+    while(!isDead())
+    {
+        sf::Time delta = clock.restart();
+		timeSinceLastUpdate += delta;
+        if(timeSinceLastUpdate.asSeconds() > Parameter::genSoldierInterval)
+		{
+			timeSinceLastUpdate = sf::Time::Zero;
+            generate();
+		}
+
+    }
+}
+
+void Nexus::generate()
 {
     auto soldier = new Soldier(side, midSoldiers[0],1,soldierFOV,1,0.75);
     soldier->setRoute(midRoute[0]);

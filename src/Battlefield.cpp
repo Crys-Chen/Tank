@@ -4,6 +4,7 @@
 using namespace sfGame;
 
 Battlefield* Battlefield::instance=nullptr;
+extern ThreadPool threadPool;
 
 Battlefield::Battlefield()
 {
@@ -104,7 +105,7 @@ bool Battlefield::checkUnitCollison(const MilitaryUnit *unit1, const MilitaryUni
 {
     if(unit1->getType() == Type::soldier || unit2->getType() == Type::soldier)  //小兵就不算撞了，不然太挤
         return false;
-    // int index1 = std::find(instance->units.begin(), instance->units.end(), unit1) - instance->units.begin();
+    //int index1 = std::find(instance->units.begin(), instance->units.end(), unit1) - instance->units.begin();
     // int index2 = std::find(instance->units.begin(), instance->units.end(), unit2) - instance->units.begin();
     auto r1 = unit1->getRadius();
     auto r2 = unit2->getRadius();
@@ -134,6 +135,12 @@ bool Battlefield::checkCollision(MilitaryUnit *unit, sf::Vector2f &collisionObj)
     return false;
 }
 
+void Battlefield::unitUpdate(MilitaryUnit *unit, sf::Time delta)
+{
+    unit->update(delta);
+}
+
+
 void Battlefield::update(sf::Time delta)
 {
     instance->distance.resize(instance->units.size());
@@ -144,9 +151,19 @@ void Battlefield::update(sf::Time delta)
             instance->distance[i][j] = calDistance(instance->units[i]->getPos(), instance->units[j]->getPos());
     }
     
-    for (auto unit : instance->units)
+    std::vector<std::future<void>> futures; 
+    // ThreadPool pool(10);
+
+    for(auto unit: instance->units)
     {
-        unit->update(delta);
+        futures.push_back(threadPool.submit(unitUpdate, unit, delta));
+    }
+
+    // for (auto unit : instance->units)
+    for(size_t i = 0; i < instance->units.size(); i++)
+    {
+        auto unit = instance->units[i];
+        futures[i].get();
         if(unit->isDead())
         {
             removeUnit(unit);

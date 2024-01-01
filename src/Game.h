@@ -9,6 +9,8 @@
 #include <memory>
 #include <cstdlib>
 
+#include "ThreadPool.h"
+#include "Parameters.h"
 #include "Screen.h"
 #include "MenuScreen.h"
 #include "AssetManager.h"
@@ -20,6 +22,7 @@ class Game
 {
 public:
 	Game();
+    ~Game();
 
 	void run();
 
@@ -28,8 +31,8 @@ public:
 	void render();
 	sf::Vector2i window_pos(); 
 
-	static const int windowWidth = 1280;
-	static const int windowHeight = 960;
+	// static const int windowWidth = 1280;
+	// static const int windowHeight = 960;
 
     // static const int gameWidth = ;
     // static const int gameHeight = ;

@@ -6,13 +6,13 @@
 using namespace sfGame;
 extern AssetManager manager;
 extern Battlefield battlefield;
+extern ThreadPool threadPool;
 
 sf::Clock GameScreen::clock;
 
-const sf::Vector2f blueTowersPos[5] = {sf::Vector2f(640,90), sf::Vector2f(415,688), sf::Vector2f(880,688), sf::Vector2f(370,1197), sf::Vector2f(1028,1197)};
-const sf::Vector2f redTowersPos[5] = {sf::Vector2f(640,2810), sf::Vector2f(415,2210), sf::Vector2f(880,2210), sf::Vector2f(275,1710), sf::Vector2f(933,1710)};
+const std::vector<sf::Vector2f> blueTowersPos = Parameter::blueTowersPos;
+const std::vector<sf::Vector2f> redTowersPos = Parameter::redTowersPos;
 
-const float towerFOV = 300;
 
 GameScreen::GameScreen(): 
     backGround()
@@ -24,50 +24,24 @@ GameScreen::GameScreen():
         blueTowerSprite[i].setPosition(blueTowersPos[i]);
         if(i == 0)
         {
-            blueNexus = new Nexus(Side::Blue, blueTowerSprite[i], 1, towerFOV, 1);
+            blueNexus = new Nexus(Side::Blue, blueTowerSprite[i], 1, Parameter::towerFOV, 1);
             Battlefield::registerUnit(blueNexus);
         }
         else
-            Battlefield::registerUnit(new Tower(Side::Blue, blueTowerSprite[i], 1, towerFOV, 1));
+            Battlefield::registerUnit(new Tower(Side::Blue, blueTowerSprite[i], 1, Parameter::towerFOV, 1));
 
         redTowerSprite[i].setTexture(AssetManager::getTexture("./pictures/tower2.png"));
         redTowerSprite[i].setOrigin(sf::Vector2f(46.5,48));
         redTowerSprite[i].setPosition(redTowersPos[i]);
         if(i == 0)
         {
-            redNexus = new Nexus(Side::Red, redTowerSprite[i], 1, towerFOV, 1);
+            redNexus = new Nexus(Side::Red, redTowerSprite[i], 1, Parameter::towerFOV, 1);
             Battlefield::registerUnit(redNexus);
         }
         else
-            Battlefield::registerUnit(new Tower(Side::Red, redTowerSprite[i], 1, towerFOV, 1));
+            Battlefield::registerUnit(new Tower(Side::Red, redTowerSprite[i], 1, Parameter::towerFOV, 1));
     }
 
-    // blueNexusSprite.setTexture(AssetManager::getTexture("./pictures/tower1.png"));
-    // blueNexusSprite.setOrigin(sf::Vector2f(46.5,48));
-    // blueNexusSprite.setPosition(sf::Vector2f(640,90));
-    // blueNexus = new Nexus(Side::Blue, blueNexusSprite, 1, 1, 1);
-    // Battlefield::registerUnit(blueNexus);
-
-    // blueTowerSprite[0].setTexture(AssetManager::getTexture("./pictures/tower1.png"));
-    // blueTowerSprite[0].setOrigin(sf::Vector2f(46.5,48));
-    // blueTowerSprite[0].setPosition(sf::Vector2f(415,688));
-    // blueTowers = new Tower(Side::Blue, blueTowerSprite[0], 1, 1, 1);
-    // Battlefield::registerUnit(blueTowers);
-
-    // blueTowerSprite[1] = blueTowerSprite[0];
-    // blueTowerSprite[1].setPosition(sf::Vector2f(880,688));
-    // blueTowers = new Tower(Side::Blue, blueTowerSprite[1], 1, 1, 1);
-    // Battlefield::registerUnit(blueTowers);
-
-    // blueTowerSprite[2] = blueTowerSprite[0];
-    // blueTowerSprite[2].setPosition(sf::Vector2f(370,1197));
-    // blueTowers = new Tower(Side::Blue, blueTowerSprite[2], 1, 1, 1);
-    // Battlefield::registerUnit(blueTowers);
-
-    // blueTowerSprite[3] = blueTowerSprite[0];
-    // blueTowerSprite[3].setPosition(sf::Vector2f(1028,1197));
-    // blueTowers = new Tower(Side::Blue, blueTowerSprite[3], 1, 1, 1);
-    // Battlefield::registerUnit(blueTowers);
 
     playerSprite.setTexture(AssetManager::getTexture("./pictures/hero.png"));
     playerSprite.setOrigin(sf::Vector2f(18,18));
@@ -77,8 +51,8 @@ GameScreen::GameScreen():
     Battlefield::registerUnit(player);
 
 
-    blueNexus->generateSoldiers();
-    redNexus->generateSoldiers();
+    threadPool.submit(generateSoldiers, blueNexus);
+    threadPool.submit(generateSoldiers, redNexus);
 
 
 
@@ -88,10 +62,10 @@ GameScreen::GameScreen():
     // player = new Player(Side::Blue, playerSprite, 1, 1, 1);
     // for(int i = 0; i < 5; i++)
     // {
-    //     blueTowers = new Tower(Side::Blue, blueTowerSprite, 1, 1, 1);
-    //     Battlefield::registerUnit(blueTowers);
-    //     redTowers = new Tower(Side::Red, blueTowerSprite, 1, 1, 1);
-    //     Battlefield::registerUnit(redTowers);
+    //     blueTower = new Tower(Side::Blue, blueTowerSprite, 1, 1, 1);
+    //     Battlefield::registerUnit(blueTower);
+    //     redTower = new Tower(Side::Red, blueTowerSprite, 1, 1, 1);
+    //     Battlefield::registerUnit(redTower);
     // }
     // //generateSoldiers(sf::seconds(1));
     // distance = new Distance(units);
@@ -99,9 +73,15 @@ GameScreen::GameScreen():
 
 }
 
-GameScreen::~GameScreen()
-{
+// GameScreen::~GameScreen()
+// {
     
+// }
+
+void GameScreen::generateSoldiers(Nexus *nexus)
+{
+    std::cout<<"here!"<<std::endl;
+    nexus->generateSoldiers();
 }
 
 void GameScreen::handleInput(sf::RenderWindow& window)
@@ -162,35 +142,5 @@ void GameScreen::render(sf::RenderWindow& window, sf::View &view)
 		unit->render(window);
 }
 
-// void GameScreen::generateSoldiers(sf::Time delta)
-// {
-//     Battlefield::generateSoldiers(delta, blueNexus, redNexus);
-        
-//     // Soldier *blueSoldiers = NULL;
-//     // if(blueNexus->isDead() == false)
-//     // {
-//     //     blueNexus->generateSoldiers(blueSoldiers, delta);
-//     //     if(blueSoldiers)
-//     //     {
-//     //         for(int i = 0; i < 9; i++)
-//     //         {
-//     //             registerUnit(blueSoldiers+i);
-//     //         }
-//     //     }
-//     // }
 
-//     // Soldier *redSoldiers = NULL;
-//     // if(redNexus->isDead() == false)
-//     // {
-//     //     redNexus->generateSoldiers(redSoldiers, delta);
-//     //     if(redSoldiers)
-//     //     {
-//     //         for(int i = 0; i < 9; i++)
-//     //         {
-//     //             registerUnit(redSoldiers+i);
-//     //         }
-//     //     }
-//     // }
-    
-// }
 

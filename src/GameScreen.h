@@ -4,7 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-
+#include "ThreadPool.h"
+#include "Parameters.h"
 #include "Screen.h"
 #include "AssetManager.h"
 #include "BackGround.h"
@@ -20,30 +21,25 @@ class GameScreen : public Screen
 {
     public:
         GameScreen();
-        ~GameScreen();
+        ~GameScreen() = default;
 
         void handleInput(sf::RenderWindow& window) override;
         void update(sf::Time delta) override;
         void render(sf::RenderWindow& window, sf::View &view) override;
-
-        void generateSoldiers(sf::Time delta);
 
         static sf::Clock clock;
         
 
     private:
         BackGround backGround;
-        // Units units;
         Nexus *blueNexus, *redNexus;
-        Tower *blueTowers, *redTowers;
+        Tower *blueTower, *redTower;
         Player *player;
-        // Distance *distance;
-        // sf::Sprite blueNexusSprite, redNexusSprite;
         sf::Sprite blueTowerSprite[5], redTowerSprite[5];
         sf::Sprite blueSoldierSprite[3], redSoldierSprite[3];
         sf::Sprite playerSprite;
-        sf::Sprite blueObstacle[4], redObstacle[4];
-        // sf::Time generateInterval;
+
+        static void generateSoldiers(Nexus *nexus);
        
 	
 };

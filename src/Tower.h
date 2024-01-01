@@ -1,6 +1,7 @@
 #ifndef TOWER
 #define TOWER
 
+#include "Parameters.h"
 #include "Soldier.h"
 #include "Rotatable.h"
 #include "Detect.h"
@@ -30,14 +31,15 @@ class Tower: public MilitaryUnit
 class Nexus: public Tower
 {
     public:
-        Nexus(Side side, sf::Sprite sprite, float HP, float FOV, float DEF, sf::Time interval = sf::seconds(1));
+        Nexus(Side side, sf::Sprite sprite, float HP, float FOV, float DEF);
         ~Nexus();
         // void update(sf::Time delta)
         void move(){}
         void handleInput(sf::RenderWindow &window){}
         void generateSoldiers();
+        void generate();
     private:
-        sf::Time generateInterval;
+        // sf::Time generateInterval;
         sf::Sprite midSoldiers[3];
         sf::Sprite leftSoldiers[3];
         sf::Sprite rightSoldiers[3];

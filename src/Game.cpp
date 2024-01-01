@@ -4,18 +4,25 @@ using namespace sfGame;
 
 AssetManager manager;
 Battlefield battlefield;
+ThreadPool threadPool(30);
 
-const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
+const sf::Time Game::TimePerFrame = Parameter::timePerFrame;
 
 std::shared_ptr<Screen> Game::Screen = std::make_shared<MenuScreen>();
 
 
-Game::Game(): window(sf::VideoMode(Game::windowWidth, Game::windowHeight), "sfTank"),
-view(sf::FloatRect(0.f, 0.f, Game::windowWidth, Game::windowHeight))
+Game::Game(): window(sf::VideoMode(Parameter::windowWidth, Parameter::windowHeight), "sfTank"),
+view(sf::FloatRect(0.f, 0.f, Parameter::windowWidth, Parameter::windowHeight))
 {
+    threadPool.init();
 	bgMusic.openFromFile("Music/bg_music.wav");
 	bgMusic.setLoop(true);
 	bgMusic.play();
+}
+
+Game::~Game()
+{
+    threadPool.shutdown();
 }
 
 sf::Vector2i Game::window_pos()
