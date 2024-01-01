@@ -2,6 +2,8 @@
 #define TOWER
 
 #include "Soldier.h"
+#include "Rotatable.h"
+#include "Detect.h"
 #include "AssetManager.h"
 
 namespace sfGame{
@@ -11,21 +13,26 @@ namespace sfGame{
 class Tower: public MilitaryUnit
 {
     public:
-        Tower(Side side, sf::Sprite sprite, float HP, float FOV, float DEF):
-            MilitaryUnit(side, Type::tower, sprite, HP, FOV, DEF) {}
-        ~Tower() = default;
+        Tower(Side side, sf::Sprite sprite, float HP, float FOV, float DEF);
+        ~Tower();
         void move() {}
-        void update(sf::Time delta){}
+        bool rotate();
+        bool detect();
+        void update(sf::Time delta);
         void handleInput(sf::RenderWindow &window){}
-    private:
+    protected:
+        Rotatable *rotateBehavior;
+        Detect *detectBehavior;
+        sf::Vector2f destination;
+
 };
 
 class Nexus: public Tower
 {
     public:
         Nexus(Side side, sf::Sprite sprite, float HP, float FOV, float DEF, sf::Time interval = sf::seconds(1));
-        ~Nexus() = default;
-        void update(sf::Time delta){}
+        ~Nexus();
+        // void update(sf::Time delta)
         void move(){}
         void handleInput(sf::RenderWindow &window){}
         void generateSoldiers();

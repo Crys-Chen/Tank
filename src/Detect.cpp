@@ -4,33 +4,57 @@ using namespace sfGame;
 
 extern Battlefield battlefield;
 
-bool LockDetect::detect(const Units &enemies, MilitaryUnit &object)
+LockDetect::LockDetect(float FOV):
+   Detect(FOV), random(time(NULL))
 {
-    if(Battlefield::)
+
+}
+
+bool LockDetect::detect(MilitaryUnit *self, MilitaryUnit *&target)
+{
+    auto units = Battlefield::getUnits();
+
+    if((target != NULL) && (Battlefield::getDistance(self, target) < FOV)) //目标还在视野范围内
+        return true;
     
-    for (auto it = enemies.begin(); it != enemies.end(); it++)
+    Units enemiesInVision;
+    for (auto i : units)
     {
-        if(see((*it)->getPos(), position)) //检测到了敌人
-        {
-            target = *it;
-            return ;
-        }
+        if(i->getSide() == self->getSide())  //大水淹了龙王庙
+            continue;
+        if(Battlefield::getDistance(self, i) < FOV) //检测到了敌人
+            enemiesInVision.push_back(i);
     }
+
+    if(enemiesInVision.empty()) 
+        return false;
+    
+    std::uniform_int_distribution<int> distribution(0, enemiesInVision.size()-1); //int随机数范围是闭区间，最后得-1
+    target = enemiesInVision[distribution(random)];
+    return true;
+    
+
 }
 
 
-void MinDetect::detect(const Units &enemies )
+bool MinDetect::detect(MilitaryUnit *self, MilitaryUnit *&target)
 {
-    std::priority_queue<Object, std::vector<Object>, cmp> enemiesHeap;
+    auto units = Battlefield::getUnits();
 
-    for (auto it = enemies.begin(); it != enemies.end(); it++)
+    std::priority_queue<Enemy, std::vector<Enemy>, cmp> enemiesInVision;
+
+    for (auto i : units)
     {
-        if(see((*it)->getPos(), position)) //检测到了敌人
-        {
-            Object object(*it, getDistance((*it)->getPos(), position));
-            enemiesHeap.push(object);
-        }
+        if(i->getSide() == self->getSide())  //大水淹了龙王庙
+            continue;
+        auto distance = Battlefield::getDistance(self, i);
+        if(distance < FOV) //检测到了敌人
+            enemiesInVision.push(Enemy(i,distance));
     }
 
-    target = enemiesHeap.top().target;
+    if(enemiesInVision.empty()) 
+        return false;
+
+    target = enemiesInVision.top().target;
+    return true;
 }

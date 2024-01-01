@@ -47,6 +47,8 @@ class MilitaryUnit
         Type getType() const;
         Side getSide() const;
         virtual void move() = 0;
+        virtual bool detect() = 0;
+        virtual bool rotate() = 0;
         void beingAttacked(float damage);
         virtual void handleInput(sf::RenderWindow &window) = 0;
         virtual void update(sf::Time delta) = 0;

@@ -31,9 +31,12 @@ float Battlefield::calDistance(sf::Vector2f unit1, sf::Vector2f unit2)
     return sqrt(distanceX * distanceX + distanceY * distanceY);
 }
 
-float Battlefield::getDistance(int i, int j) 
+float Battlefield::getDistance(const MilitaryUnit *unit1, const MilitaryUnit *unit2) 
 {
-    return instance->distance[i][j];
+    assert(!unit1->isDead() && !unit2->isDead());
+    int index1 = std::find(instance->units.begin(), instance->units.end(), unit1) - instance->units.begin();
+    int index2 = std::find(instance->units.begin(), instance->units.end(), unit2) - instance->units.begin();
+    return instance->distance[index1][index2];
 }
 
 bool Battlefield::checkObstacleCollison(const sf::Sprite &sprite, sf::Vector2f &collisionObj)
@@ -101,11 +104,11 @@ bool Battlefield::checkUnitCollison(const MilitaryUnit *unit1, const MilitaryUni
 {
     if(unit1->getType() == Type::soldier || unit2->getType() == Type::soldier)  //小兵就不算撞了，不然太挤
         return false;
-    int index1 = std::find(instance->units.begin(), instance->units.end(), unit1) - instance->units.begin();
-    int index2 = std::find(instance->units.begin(), instance->units.end(), unit2) - instance->units.begin();
-    int r1 = unit1->getRadius();
-    int r2 = unit2->getRadius();
-    return instance->distance[index1][index2] < r1 + r2;
+    // int index1 = std::find(instance->units.begin(), instance->units.end(), unit1) - instance->units.begin();
+    // int index2 = std::find(instance->units.begin(), instance->units.end(), unit2) - instance->units.begin();
+    auto r1 = unit1->getRadius();
+    auto r2 = unit2->getRadius();
+    return getDistance(unit1, unit2) < r1 + r2;
 }
 
 bool Battlefield::checkCollision(MilitaryUnit *unit, sf::Vector2f &collisionObj)

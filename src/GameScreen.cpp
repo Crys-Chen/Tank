@@ -12,6 +12,8 @@ sf::Clock GameScreen::clock;
 const sf::Vector2f blueTowersPos[5] = {sf::Vector2f(640,90), sf::Vector2f(415,688), sf::Vector2f(880,688), sf::Vector2f(370,1197), sf::Vector2f(1028,1197)};
 const sf::Vector2f redTowersPos[5] = {sf::Vector2f(640,2810), sf::Vector2f(415,2210), sf::Vector2f(880,2210), sf::Vector2f(275,1710), sf::Vector2f(933,1710)};
 
+const float towerFOV = 300;
+
 GameScreen::GameScreen(): 
     backGround()
 {
@@ -22,22 +24,22 @@ GameScreen::GameScreen():
         blueTowerSprite[i].setPosition(blueTowersPos[i]);
         if(i == 0)
         {
-            blueNexus = new Nexus(Side::Blue, blueTowerSprite[i], 1, 1, 1);
+            blueNexus = new Nexus(Side::Blue, blueTowerSprite[i], 1, towerFOV, 1);
             Battlefield::registerUnit(blueNexus);
         }
         else
-            Battlefield::registerUnit(new Tower(Side::Blue, blueTowerSprite[i], 1, 1, 1));
+            Battlefield::registerUnit(new Tower(Side::Blue, blueTowerSprite[i], 1, towerFOV, 1));
 
         redTowerSprite[i].setTexture(AssetManager::getTexture("./pictures/tower2.png"));
         redTowerSprite[i].setOrigin(sf::Vector2f(46.5,48));
         redTowerSprite[i].setPosition(redTowersPos[i]);
         if(i == 0)
         {
-            redNexus = new Nexus(Side::Red, redTowerSprite[i], 1, 1, 1);
+            redNexus = new Nexus(Side::Red, redTowerSprite[i], 1, towerFOV, 1);
             Battlefield::registerUnit(redNexus);
         }
         else
-            Battlefield::registerUnit(new Tower(Side::Red, redTowerSprite[i], 1, 1, 1));
+            Battlefield::registerUnit(new Tower(Side::Red, redTowerSprite[i], 1, towerFOV, 1));
     }
 
     // blueNexusSprite.setTexture(AssetManager::getTexture("./pictures/tower1.png"));

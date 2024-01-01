@@ -16,6 +16,7 @@ class Player: public MilitaryUnit
         void update(sf::Time delta);
         bool rotate();
         void move();
+        bool detect() {return false;}
         // bool checkCollision(const Units &units);
         // void render(sf::RenderWindow& window);
 

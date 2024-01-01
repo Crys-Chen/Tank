@@ -25,7 +25,7 @@ class Battlefield
 
         static float calDistance(sf::Vector2f unit1, sf::Vector2f unit2);
 
-        static float getDistance(int i, int j);
+        static float getDistance(const MilitaryUnit *unit1, const MilitaryUnit *unit2);
 
         static bool checkCollision(MilitaryUnit *unit, sf::Vector2f &collisionObj);
 
