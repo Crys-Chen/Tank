@@ -39,9 +39,14 @@ bool MilitaryUnit::isDead() const
     return HP<=0;
 }
 
-bool MilitaryUnit::isPlayer() const
+Type MilitaryUnit::getType() const
 {
-    return isPlayer_;
+    return type;
+}
+
+Side MilitaryUnit::getSide() const
+{
+    return side;
 }
 
 sf::Sprite MilitaryUnit::getSprite() const

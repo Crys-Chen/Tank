@@ -21,7 +21,7 @@ Battlefield::Battlefield()
 Battlefield::~Battlefield()
 {
     for(auto i : units)
-    delete i;
+        delete i;
 }
 
 float Battlefield::calDistance(sf::Vector2f unit1, sf::Vector2f unit2)
@@ -99,7 +99,8 @@ bool Battlefield::checkObstacleCollison(const sf::Sprite &sprite, sf::Vector2f &
 
 bool Battlefield::checkUnitCollison(const MilitaryUnit *unit1, const MilitaryUnit *unit2)
 {
-    
+    if(unit1->getType() == Type::soldier || unit2->getType() == Type::soldier)  //小兵就不算撞了，不然太挤
+        return false;
     int index1 = std::find(instance->units.begin(), instance->units.end(), unit1) - instance->units.begin();
     int index2 = std::find(instance->units.begin(), instance->units.end(), unit2) - instance->units.begin();
     int r1 = unit1->getRadius();
@@ -149,7 +150,7 @@ void Battlefield::update(sf::Time delta)
             // auto isPlayer = dynamic_cast<Player*>(unit);
             // if(isPlayer == NULL) //除了玩家以外都是一次性耗材，直接delete掉。
             //     delete unit;
-            if(!unit->isPlayer())
+            if(unit->getType() != Type::player)
                 delete unit;
         }
     }

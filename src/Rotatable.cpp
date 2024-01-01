@@ -1,18 +1,23 @@
 #include "Rotatable.h"
+
 #include <iostream>
 
 using namespace sfGame;
-
-bool Rotatable::rotate(sf::Sprite &sprite, const sf::Vector2f &destination)
+bool Rotatable::rotate(MilitaryUnit &unit, const sf::Vector2f &destination)
 {
+    sf::Sprite& sprite = unit.getSprite();
     auto currentPos=sprite.getPosition();
     float length=sqrt((destination.x-currentPos.x)*(destination.x-currentPos.x)
                 +(destination.y-currentPos.y)*(destination.y-currentPos.y));//必须先把double转成float
-    if(length == 0) return true;
+    if(length == 0) return false;
     // auto direction=static_cast<float>(sprite.getTexture()->getSize().x) 
     //                 * sf::Vector2f(destination.x-currentPos.x,destination.y-currentPos.y)/length; //获取鼠标相对蛇头位置的单位矢量
     auto direction = sf::Vector2f(destination.x-currentPos.x , destination.y-currentPos.y) / length;
-    auto destDirection = int(std::atan2(direction.y,direction.x)/3.1415926535*180.0 + 270.0) % 360;
+    int destDirection;
+    if(unit.getSide() == Side::Blue)
+        destDirection = int(std::atan2(direction.y,direction.x)/3.1415926535*180.0 + 270.0) % 360;
+    else   
+        destDirection = int(std::atan2(direction.y,direction.x)/3.1415926535*180.0 + 450.0) % 360;
     auto curDirection = sprite.getRotation();
     float twist;
     if((destDirection < curDirection && curDirection - destDirection < 180) ||
@@ -28,8 +33,8 @@ bool Rotatable::rotate(sf::Sprite &sprite, const sf::Vector2f &destination)
         // sprite.setRotation(curDirection + twist);
         // return false;
         sprite.rotate(twist);
-        return false;
+        return true;
     }
         
-    else return true;
+    else return false;
 }

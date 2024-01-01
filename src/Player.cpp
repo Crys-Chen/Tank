@@ -4,7 +4,7 @@
 using namespace sfGame;
 
 Player::Player(Side side, sf::Sprite sprite, float HP, float FOV, float DEF):
-    MilitaryUnit(side, sprite, HP, FOV, DEF, true) 
+    MilitaryUnit(side, Type::player, sprite, HP, FOV, DEF) 
     {
         destination = sprite.getPosition();
         moveBehavior = new PlayerMove(3);
@@ -62,7 +62,7 @@ void Player::handleInput(sf::RenderWindow &window)
 
 void Player::update(sf::Time delta)
 {
-    if(rotate())
+    if(!rotate())
         move();   
 }
 
@@ -75,5 +75,5 @@ void Player::move()
 
 bool Player::rotate()
 {
-    return rotateBehavior->rotate(sprite, destination);
+    return rotateBehavior->rotate(*this, destination);
 }

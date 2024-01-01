@@ -38,8 +38,8 @@ class GameScreen : public Screen
         Tower *blueTowers, *redTowers;
         Player *player;
         // Distance *distance;
-        sf::Sprite blueNexusSprite, redNexusSprite;
-        sf::Sprite blueTowerSprite[4], redTowerSprite[4];
+        // sf::Sprite blueNexusSprite, redNexusSprite;
+        sf::Sprite blueTowerSprite[5], redTowerSprite[5];
         sf::Sprite blueSoldierSprite[3], redSoldierSprite[3];
         sf::Sprite playerSprite;
         sf::Sprite blueObstacle[4], redObstacle[4];

@@ -21,13 +21,19 @@ enum Side
     Red,Blue
 };
 
+enum Type
+{
+    player,
+    tower,
+    soldier
+};
 
 
 class MilitaryUnit
 {
     public:
-        MilitaryUnit(Side side, sf::Sprite sprite, float HP, float FOV, float DEF, bool isPlayer = false):
-            side(side),sprite(sprite),HP(HP),FOV(FOV),DEF(DEF), isPlayer_(isPlayer){}
+        MilitaryUnit(Side side, Type type, sf::Sprite sprite, float HP, float FOV, float DEF):
+            side(side), type(type), sprite(sprite),HP(HP),FOV(FOV),DEF(DEF){}
         virtual ~MilitaryUnit() = default;
         //virtual bool detect(const Units &enemies) = 0;
         sf::FloatRect getBounds() const;
@@ -38,7 +44,8 @@ class MilitaryUnit
         float getHP() const;
         float getDEF() const;
         bool isDead() const;
-        bool isPlayer() const;
+        Type getType() const;
+        Side getSide() const;
         virtual void move() = 0;
         void beingAttacked(float damage);
         virtual void handleInput(sf::RenderWindow &window) = 0;
@@ -46,17 +53,19 @@ class MilitaryUnit
         void render(sf::RenderWindow& window);
     protected:
         Side  side;
+        Type type;
         sf::Sprite sprite; //贴图
         float HP; //血量
         float FOV; //视野半径
         float DEF; //防御力
-        bool isPlayer_;
+        
         // Detect *detectBehavior;
         // Attack *attackBehavior;
 };
 
 
 typedef std::vector<MilitaryUnit*> Units;
+typedef std::vector<sf::Vector2f> Route;
 
 
 
