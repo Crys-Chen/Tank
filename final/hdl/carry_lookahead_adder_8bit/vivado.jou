@@ -1,0 +1,17 @@
+#-----------------------------------------------------------
+# Vivado v2019.2 (64-bit)
+# SW Build 2708876 on Wed Nov  6 21:40:23 MST 2019
+# IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+# Start of session at: Thu Dec 21 23:33:47 2023
+# Process ID: 27860
+# Current directory: E:/WorkStation/Digital IC/src/final/hdl/carry_lookahead_adder_8bit
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent17896 E:\WorkStation\Digital IC\src\final\hdl\carry_lookahead_adder_8bit\carry_lookahead_adder_8bit.xpr
+# Log file: E:/WorkStation/Digital IC/src/final/hdl/carry_lookahead_adder_8bit/vivado.log
+# Journal file: E:/WorkStation/Digital IC/src/final/hdl/carry_lookahead_adder_8bit\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project {E:/WorkStation/Digital IC/src/final/hdl/carry_lookahead_adder_8bit/carry_lookahead_adder_8bit.xpr}
+launch_simulation
+source test.tcl
+update_compile_order -fileset sources_1
+close_sim

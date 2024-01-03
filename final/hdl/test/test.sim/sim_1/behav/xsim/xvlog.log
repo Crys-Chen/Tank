@@ -1,0 +1,7 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/WorkStation/Digital IC/src/final/hdl/src/adder.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module adder
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/WorkStation/Digital IC/src/final/hdl/src/adder_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module test
+WARNING: [VRFC 10-965] invalid size of integer constant literal [E:/WorkStation/Digital IC/src/final/hdl/src/adder_tb.v:18]
+WARNING: [VRFC 10-965] invalid size of integer constant literal [E:/WorkStation/Digital IC/src/final/hdl/src/adder_tb.v:19]
+WARNING: [VRFC 10-965] invalid size of integer constant literal [E:/WorkStation/Digital IC/src/final/hdl/src/adder_tb.v:20]

@@ -1,0 +1,8 @@
+$DATA1 SOURCE='HSPICE' VERSION='P-2019.06-SP1-1 win64' PARAM_COUNT=0
+.TITLE '**********************************'
+ vomax            vomin            tphl             tplh            
+ tr               tf               avgpower         temper          
+ alter#          
+    failed           failed           failed           failed       
+    failed           failed        -1.160e-04         25.0000       
+1               

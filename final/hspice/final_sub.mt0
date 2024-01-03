@@ -1,0 +1,6 @@
+$DATA1 SOURCE='HSPICE' VERSION='P-2019.06-SP1-1 win64' PARAM_COUNT=0
+.TITLE '**********************************'
+ t_total          t_lookahead      t_select         temper          
+ alter#          
+  2.293e-09        1.258e-09        2.361e-09         25.0000       
+1               
