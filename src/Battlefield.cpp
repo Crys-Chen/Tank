@@ -145,12 +145,12 @@ bool Battlefield::checkCollision(MilitaryUnit *unit, sf::Vector2f &collisionObj)
     return false;
 }
 
-void Battlefield::unitUpdate(MilitaryUnit *unit, sf::Time delta)
+void unitUpdate(MilitaryUnit *unit, sf::Time delta)
 {
     unit->update(delta);
 }
 
-void Battlefield::shellUpdate(Shell *shell)
+void shellUpdate(Shell *shell)
 {
     shell->update();
 }
@@ -171,38 +171,52 @@ void Battlefield::update(sf::Time delta)
         }
             
     }
+
+    for(auto unit: instance->units)
+    {
+        if(unit->isDead()) continue;
+        threadPool.submit(unitUpdate,unit,delta);
+    }
+
+    for(auto shell: instance->shells)
+    {
+        if(shell->isOver()) continue;
+        threadPool.submit(shellUpdate,shell);
+        // shellUpdate(shell);
+    }
     
 
     // ThreadPool pool(10);
 
-    for(size_t i = 0; i < instance->units.size(); i++)
-    {
-        auto unit = instance->units[i];
-        if(unit->isDead()) continue;
-        // unitsFut.push_back(threadPool.submit(unitUpdate, unit, delta));
-        unitUpdate(unit, delta);
-        // if(unit->isDead())
-        // {
-        //     instance->units.erase(Units::iterator(&instance->units[i]));
-        //     i--;
-        //     if(unit != NULL && unit->getType() != Type::player)
-        //         delete unit;
-        // }
-    }
+    // for(size_t i = 0; i < instance->units.size(); i++)
+    // {
+    //     auto unit = instance->units[i];
+    //     if(unit->isDead()) continue;
+    //     // unitsFut.push_back(threadPool.submit(unitUpdate, unit, delta));
+    //     unitUpdate(unit, delta);
+    //     // if(unit->isDead())
+    //     // {
+    //         // instance->units.erase(Units::iterator(&instance->units[i]));
+    //         // i--;
+    //         // if(unit != NULL && unit->getType() != Type::player)
+    //         //     delete unit;
+    //     // }
+    // }
 
-    for(size_t i = 0; i < instance->shells.size(); i++)
-    {
-        auto shell = instance->shells[i];
-        // shellsFut.push_back(threadPool.submit(shellUpdate, shell));
-        shellUpdate(shell);
-        if(shell->isOver())
-        {
-            instance->shells.erase(Shells::iterator(&instance->shells[i]));
-            i--;
-            if(shell != NULL)
-                delete shell;
-        }
-    }
+    // for(size_t i = 0; i < instance->shells.size(); i++)
+    // {
+    //     auto shell = instance->shells[i];
+    //     if(shell->isOver()) continue;
+    //     // shellsFut.push_back(threadPool.submit(shellUpdate, shell));
+    //     shellUpdate(shell);
+    //     // if(shell->isOver())
+    //     // {
+    //     //     instance->shells.erase(Shells::iterator(&instance->shells[i]));
+    //     //     i--;
+    //     //     if(shell != NULL)
+    //     //         delete shell;
+    //     // }
+    // }
     // for(auto shell: instance->shells)
     // {
     //     if(shell->isOver())

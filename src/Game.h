@@ -8,6 +8,8 @@
 #include <vector>
 #include <memory>
 #include <cstdlib>
+#include <thread>
+#include <chrono>
 
 #include "ThreadPool.h"
 #include "Parameters.h"
@@ -27,15 +29,9 @@ public:
 	void run();
 
 	void handleInput();
-	void update(sf::Time delta);
+	void update();
 	void render();
-	sf::Vector2i window_pos(); 
-
-	// static const int windowWidth = 1280;
-	// static const int windowHeight = 960;
-
-    // static const int gameWidth = ;
-    // static const int gameHeight = ;
+	sf::Vector2i windowPos(); 
 
 	static std::shared_ptr<Screen> Screen;
 

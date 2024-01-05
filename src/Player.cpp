@@ -118,7 +118,11 @@ void Player::refresh()
 
 bool Player::attack(sf::Time delta)
 {
+    
     attackClock += delta;
+    // std::cout<<attackClock.asSeconds()<<std::endl;
+    // std::cout<<attackInterval.asSeconds()<<std::endl;
+    // std::cout<<delta.asSeconds()<<std::endl;
 
     if(target == NULL) return false;
     if(Battlefield::getDistance(this, target) > attackRange)

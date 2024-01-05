@@ -27,7 +27,7 @@ Game::~Game()
     threadPool.shutdown();
 }
 
-sf::Vector2i Game::window_pos()
+sf::Vector2i Game::windowPos()
 {
     return window.getPosition();
 }
@@ -46,9 +46,29 @@ void Game::handleInput()
 	Game::Screen->handleInput(window);
 }
 
-void Game::update(sf::Time delta)
+void Game::update()
 {
-	Game::Screen->update(delta);
+    sf::Clock clock;
+	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+
+	while (window.isOpen())
+	{
+		sf::Time delta = clock.restart();
+		timeSinceLastUpdate += delta;
+
+		while (timeSinceLastUpdate > Game::TimePerFrame)
+		{
+			timeSinceLastUpdate -= TimePerFrame;
+			Game::Screen->update(TimePerFrame);
+		}
+		
+	}
+	
+}
+
+void gameUpdate(Game *game)
+{
+    game->update();
 }
 
 void Game::render()
@@ -61,22 +81,31 @@ void Game::render()
 
 void Game::run()
 {
-	sf::Clock clock;
-	sf::Time timeSinceLastUpdate = sf::Time::Zero;
-	std::srand(std::time(NULL));
+    threadPool.submit(gameUpdate, this);
+    while(window.isOpen())
+    {
+        handleInput();
+        render();
+    }
 
-	while (window.isOpen())
-	{
-		sf::Time delta = clock.restart();
-		timeSinceLastUpdate += delta;
+	// }
 
-		while (timeSinceLastUpdate > Game::TimePerFrame)
-		{
-			timeSinceLastUpdate -= TimePerFrame;
-			handleInput();
-			update(TimePerFrame);
-		}
+	// sf::Clock clock;
+	// sf::Time timeSinceLastUpdate = sf::Time::Zero;
+	// std::srand(std::time(NULL));
 
-		render();
-	}
+	// while (window.isOpen())
+	// {
+	// 	sf::Time delta = clock.restart();
+	// 	timeSinceLastUpdate += delta;
+
+	// 	while (timeSinceLastUpdate > Game::TimePerFrame)
+	// 	{
+	// 		timeSinceLastUpdate -= TimePerFrame;
+	// 		handleInput();
+	// 		update(TimePerFrame);
+	// 	}
+
+	// 	render();
+	// }
 }

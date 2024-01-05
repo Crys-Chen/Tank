@@ -124,24 +124,42 @@ void GameScreen::handleInput(sf::RenderWindow& window)
 	// }
 }
 
+void refresh(Player *player)
+{
+    player->refresh();
+}
+
 void GameScreen::update(sf::Time delta) //未完成
 {
 	//generateSoldiers(delta);
+    static bool playerRefresh = false;
 
     Battlefield::update(delta);
-
-
+    if(player->isDead())
+    {
+        if(playerRefresh == false)
+            threadPool.submit(refresh,player);
+        playerRefresh = true;
+    }
+    else playerRefresh = false;
+    
+        
 }
 
 void GameScreen::render(sf::RenderWindow& window, sf::View &view)
 {
 	backGround.draw(window);
     // while(view.getCenter().y < 960)
+    if(player->isDead())
+        view.setCenter(sf::Vector2f(640,480));
+    else
+    {
+        if(player->getPos().y < 480 || player->getPos().y > 2400)
+            view.setCenter(sf::Vector2f(640, view.getCenter().y));
+        else 
+            view.setCenter(sf::Vector2f(640, player->getPos().y));
+    }
 
-    if(player->getPos().y < 480 || player->getPos().y > 2400)
-        view.setCenter(sf::Vector2f(640, view.getCenter().y));
-    else 
-	    view.setCenter(sf::Vector2f(640, player->getPos().y));
 
 	for (auto unit : Battlefield::getUnits())
     {
@@ -150,7 +168,11 @@ void GameScreen::render(sf::RenderWindow& window, sf::View &view)
     }
 		
     for (auto shell: Battlefield::getShells())
+    {
+        if(shell->isOver()) continue;
         shell->render(window);
+    }
+        
 }
 
 
