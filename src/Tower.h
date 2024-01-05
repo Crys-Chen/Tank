@@ -14,24 +14,25 @@ namespace sfGame{
 class Tower: public MilitaryUnit
 {
     public:
-        Tower(Side side, sf::Sprite sprite, float HP, float FOV, float DEF);
+        Tower(Side side, sf::Sprite sprite, int HP, int ATK, float FOV);
         ~Tower();
         void move() {}
+        Type getType() const;
         bool rotate();
         bool detect();
         void update(sf::Time delta);
         void handleInput(sf::RenderWindow &window){}
     protected:
-        Rotatable *rotateBehavior;
-        Detect *detectBehavior;
-        sf::Vector2f destination;
+        // Rotatable *rotateBehavior;
+        // Detect *detectBehavior;
+        // sf::Vector2f destination;
 
 };
 
 class Nexus: public Tower
 {
     public:
-        Nexus(Side side, sf::Sprite sprite, float HP, float FOV, float DEF);
+        Nexus(Side side, sf::Sprite sprite, int HP, int ATK, float FOV);
         ~Nexus();
         // void update(sf::Time delta)
         void move(){}

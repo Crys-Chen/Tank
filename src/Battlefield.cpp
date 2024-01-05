@@ -11,6 +11,7 @@ Battlefield::Battlefield()
     assert(instance==nullptr);
     instance=this;
     distance.resize(units.size());
+    shells.resize(0);
     for(size_t i = 0; i < units.size(); i++)
     {
         distance[i].resize(units.size());
@@ -23,6 +24,8 @@ Battlefield::~Battlefield()
 {
     for(auto i : units)
         delete i;
+    for(auto i : shells)
+        delete i;
 }
 
 float Battlefield::calDistance(sf::Vector2f unit1, sf::Vector2f unit2)
@@ -34,7 +37,7 @@ float Battlefield::calDistance(sf::Vector2f unit1, sf::Vector2f unit2)
 
 float Battlefield::getDistance(const MilitaryUnit *unit1, const MilitaryUnit *unit2) 
 {
-    assert(!unit1->isDead() && !unit2->isDead());
+    // assert(!unit1->isDead() && !unit2->isDead());
     int index1 = std::find(instance->units.begin(), instance->units.end(), unit1) - instance->units.begin();
     int index2 = std::find(instance->units.begin(), instance->units.end(), unit2) - instance->units.begin();
     return instance->distance[index1][index2];
@@ -116,7 +119,7 @@ bool Battlefield::checkCollision(MilitaryUnit *unit, sf::Vector2f &collisionObj)
 {
     if(checkObstacleCollison(unit->getSprite(), collisionObj)) 
     {
-        std::cout<<"zhuang obstacle!"<<std::endl;
+        std::cout<<"hit obstacle!"<<std::endl;
         return true;
     }
         
@@ -126,7 +129,7 @@ bool Battlefield::checkCollision(MilitaryUnit *unit, sf::Vector2f &collisionObj)
             continue;
         if(checkUnitCollison(unit, i))
         {
-            std::cout<<"zhuang unit!"<<std::endl;
+            std::cout<<"hit unit!"<<std::endl;
             collisionObj = i->getSprite().getPosition();
             return true;
         }
@@ -140,6 +143,11 @@ void Battlefield::unitUpdate(MilitaryUnit *unit, sf::Time delta)
     unit->update(delta);
 }
 
+void Battlefield::shellUpdate(Shell *shell)
+{
+    shell->update();
+}
+
 
 void Battlefield::update(sf::Time delta)
 {
@@ -151,29 +159,72 @@ void Battlefield::update(sf::Time delta)
             instance->distance[i][j] = calDistance(instance->units[i]->getPos(), instance->units[j]->getPos());
     }
     
-    std::vector<std::future<void>> futures; 
+    std::vector<std::future<void>> unitsFut;
+    std::vector<std::future<void>> shellsFut; 
     // ThreadPool pool(10);
 
-    for(auto unit: instance->units)
-    {
-        futures.push_back(threadPool.submit(unitUpdate, unit, delta));
-    }
-
-    // for (auto unit : instance->units)
     for(size_t i = 0; i < instance->units.size(); i++)
     {
         auto unit = instance->units[i];
-        futures[i].get();
+        // unitsFut.push_back(threadPool.submit(unitUpdate, unit, delta));
+        unitUpdate(unit, delta);
         if(unit->isDead())
         {
-            removeUnit(unit);
-            // auto isPlayer = dynamic_cast<Player*>(unit);
-            // if(isPlayer == NULL) //除了玩家以外都是一次性耗材，直接delete掉。
-            //     delete unit;
-            if(unit->getType() != Type::player)
+            instance->units.erase(Units::iterator(&instance->units[i]));
+            i--;
+            if(unit != NULL && unit->getType() != Type::player)
                 delete unit;
         }
     }
+
+    for(size_t i = 0; i < instance->shells.size(); i++)
+    {
+        auto shell = instance->shells[i];
+        // shellsFut.push_back(threadPool.submit(shellUpdate, shell));
+        shellUpdate(shell);
+        if(shell->isOver())
+        {
+            instance->shells.erase(Shells::iterator(&instance->shells[i]));
+            i--;
+            if(shell != NULL)
+                delete shell;
+        }
+    }
+    // for(auto shell: instance->shells)
+    // {
+    //     if(shell->isOver())
+    //     {
+    //         removeShell(shell);
+    //         delete shell;
+    //     }
+    // }
+
+    // for(size_t i = 0; i < instance->shells.size(); i++)
+    // {
+    //     auto shell = instance->shells[i];
+    //     shellsFut[i].get();
+    //     if(shell->isOver())
+    //     {
+    //         removeShell(shell);
+    //         delete shell;
+    //     }
+    // }
+
+    // for (auto unit : instance->units)
+    // for(size_t i = 0; i < instance->units.size(); i++)
+    // {
+    //     auto unit = instance->units[i];
+    //     unitsFut[i].get();
+    //     if(unit->isDead())
+    //     {
+    //         removeUnit(unit);
+    //         // auto isPlayer = dynamic_cast<Player*>(unit);
+    //         // if(isPlayer == NULL) //除了玩家以外都是一次性耗材，直接delete掉。
+    //         //     delete unit;
+    //         if(unit->getType() != Type::player)
+    //             delete unit;
+    //     }
+    // }
 
 }
 
@@ -182,17 +233,37 @@ void Battlefield::update(sf::Time delta)
 void Battlefield::registerUnit(MilitaryUnit* unit)
 {
     assert(unit != NULL);
+    // std::cout<<"register!"<<std::endl;
     instance->units.push_back(unit);
 }
+
+
+void Battlefield::registerShell(Shell* shell)
+{
+    assert(shell != NULL);
+    instance->shells.push_back(shell);
+}
+
 
 
 void Battlefield::removeUnit(MilitaryUnit* unit)
 {
     assert(unit != NULL);
-    for(auto i = instance->units.begin(); i != instance->units.end(); i++)
+    // for(auto i = instance->units.begin(); i != instance->units.end(); i++)
+    // {
+    //     if(*i == unit)
+    auto i = std::find(instance->units.begin(), instance->units.end(), unit);
+    instance->units.erase(i);
+    // }
+}
+
+void Battlefield::removeShell(Shell* shell)
+{
+    assert(shell != NULL);
+    for(auto i = instance->shells.begin(); i != instance->shells.end(); i++)
     {
-        if(*i == unit)
-            instance->units.erase(i);
+        if(*i == shell)
+            instance->shells.erase(i);
     }
 }
 
@@ -201,32 +272,8 @@ Units& Battlefield::getUnits()
     return instance->units;
 }
 
-// void Battlefield::generateSoldiers(sf::Time delta, Nexus *blueNexus, Nexus *redNexus)
-// {
-//     Soldier *blueSoldiers = NULL;
-//     if(blueNexus->isDead() == false)
-//     {
-//         blueNexus->generateSoldiers(blueSoldiers, delta);
-//         if(blueSoldiers)
-//         {
-//             for(int i = 0; i < 9; i++)
-//             {
-//                 registerUnit(blueSoldiers+i);
-//             }
-//         }
-//     }
+Shells& Battlefield::getShells()
+{
+    return instance->shells;
+}
 
-//     Soldier *redSoldiers = NULL;
-//     if(redNexus->isDead() == false)
-//     {
-//         redNexus->generateSoldiers(redSoldiers, delta);
-//         if(redSoldiers)
-//         {
-//             for(int i = 0; i < 9; i++)
-//             {
-//                 registerUnit(redSoldiers+i);
-//             }
-//         }
-//     }
-    
-// }

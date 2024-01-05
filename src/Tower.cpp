@@ -4,10 +4,10 @@ using namespace sfGame;
 
 extern AssetManager manager;
 
-const float soldierFOV = 30;
 
-Tower::Tower(Side side, sf::Sprite sprite, float HP, float FOV, float DEF):
-    MilitaryUnit(side, Type::tower, sprite, HP, FOV, DEF) 
+
+Tower::Tower(Side side, sf::Sprite sprite, int HP, int ATK, float FOV):
+    MilitaryUnit(side, sprite, HP, ATK) 
 {
     rotateBehavior = new Rotatable(1.5);
     detectBehavior = new LockDetect(FOV);
@@ -52,8 +52,14 @@ bool Tower::rotate()
     return rotateBehavior->rotate(*this, destination);
 }
 
-Nexus::Nexus(Side side, sf::Sprite sprite, float HP, float FOV, float DEF):
-    Tower(side, sprite, HP, FOV, DEF)
+
+Type Tower::getType() const
+{
+    return Type::tower;
+}
+
+Nexus::Nexus(Side side, sf::Sprite sprite, int HP, int ATK, float FOV):
+    Tower(side, sprite, HP, ATK, FOV)
 {
 
 if(side == Side::Blue)
@@ -268,40 +274,40 @@ void Nexus::generateSoldiers()
 
 void Nexus::generate()
 {
-    auto soldier = new Soldier(side, midSoldiers[0],1,soldierFOV,1,0.75);
+    auto soldier = new Soldier(side, midSoldiers[0],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,0.75);
     soldier->setRoute(midRoute[0]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, midSoldiers[1],1,soldierFOV,1,0.75);
+    soldier = new Soldier(side, midSoldiers[1],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,0.75);
     soldier->setRoute(midRoute[1]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, midSoldiers[2],1,soldierFOV,1,0.75);
+    soldier = new Soldier(side, midSoldiers[2],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,0.75);
     soldier->setRoute(midRoute[2]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, leftSoldiers[0],1,soldierFOV,1,1);
+    soldier = new Soldier(side, leftSoldiers[0],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,1);
     soldier->setRoute(leftRoute[0]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, leftSoldiers[1],1,soldierFOV,1,1.05);
+    soldier = new Soldier(side, leftSoldiers[1],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,1.05);
     soldier->setRoute(leftRoute[1]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, leftSoldiers[2],1,soldierFOV,1,0.95);
+    soldier = new Soldier(side, leftSoldiers[2],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,0.95);
     soldier->setRoute(leftRoute[2]);
     Battlefield::registerUnit(soldier);
 
 
-    soldier = new Soldier(side, rightSoldiers[0],1,soldierFOV,1,1);
+    soldier = new Soldier(side, rightSoldiers[0],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,1);
     soldier->setRoute(rightRoute[0]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, rightSoldiers[1],1,soldierFOV,1,0.95);
+    soldier = new Soldier(side, rightSoldiers[1],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,0.95);
     soldier->setRoute(rightRoute[1]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, rightSoldiers[2],1,soldierFOV,1,1.05);
+    soldier = new Soldier(side, rightSoldiers[2],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,1.05);
     soldier->setRoute(rightRoute[2]);
     Battlefield::registerUnit(soldier);
 

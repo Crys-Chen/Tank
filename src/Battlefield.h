@@ -5,6 +5,7 @@
 
 #include "ThreadPool.h"
 #include "MilitaryUnit.h"
+#include "Shell.h"
 // #include "Player.h"
 // #include "Tower.h"
 // #include "Soldier.h"
@@ -35,7 +36,13 @@ class Battlefield
 
         static void removeUnit(MilitaryUnit* unit);
 
+        static void registerShell(Shell* shell);
+
+        static void removeShell(Shell* shell);
+
         static Units& getUnits();
+
+        static Shells& getShells();
 
         static void update(sf::Time delta);
 
@@ -45,11 +52,13 @@ class Battlefield
     private:
         Distance distance;
         Units units;
+        Shells shells;
         static Battlefield *instance;
 
         static bool checkUnitCollison(const MilitaryUnit *unit1, const MilitaryUnit *unit2);
         static bool checkObstacleCollison(const sf::Sprite &sprite1, sf::Vector2f &collisionObj);
         static void unitUpdate(MilitaryUnit *unit, sf::Time delta);
+        static void shellUpdate(Shell *shell);
 };
 
 }

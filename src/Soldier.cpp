@@ -2,8 +2,8 @@
 
 using namespace sfGame;
 
-Soldier::Soldier(Side side, sf::Sprite sprite, float HP, float FOV, float DEF, float velocity):
-    MilitaryUnit(side, Type::soldier, sprite, HP, FOV, DEF)
+Soldier::Soldier(Side side, sf::Sprite sprite, int HP, int ATK, float FOV, float velocity):
+    MilitaryUnit(side, sprite, HP, ATK)
 {
     moveBehavior = new SoldierMove(velocity);
     rotateBehavior = new Rotatable(1);
@@ -16,6 +16,11 @@ Soldier::~Soldier()
     delete moveBehavior;
     delete rotateBehavior;
     delete detectBehavior;
+}
+
+Type Soldier::getType() const
+{
+    return Type::soldier;
 }
 
 void Soldier::setRoute(const Route &route)

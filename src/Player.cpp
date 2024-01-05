@@ -3,18 +3,20 @@
 
 using namespace sfGame;
 
-Player::Player(Side side, sf::Sprite sprite, float HP, float FOV, float DEF):
-    MilitaryUnit(side, Type::player, sprite, HP, FOV, DEF) 
+Player::Player(Side side, sf::Sprite sprite, int HP, int ATK, float FOV):
+    MilitaryUnit(side, sprite, HP, ATK) 
     {
-        destination = sprite.getPosition();
+        // destination = sprite.getPosition();
         moveBehavior = new PlayerMove(3);
         rotateBehavior = new Rotatable(1);
+        attack = new Attack(ShellSize::medium, 1);
     }
 
 Player::~Player()
 {
     delete moveBehavior;
     delete rotateBehavior;
+    delete attack;
 }
 
 
@@ -53,8 +55,23 @@ void Player::handleInput(sf::RenderWindow &window)
             auto relativePos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)); 
             // auto offset = window.getView().getCenter() - sf::Vector2f(Game::windowWidth/2, Game::windowHeight/2);
             auto offset = window.getView().getCenter() - sf::Vector2f(640, 480);
+            auto absPos = relativePos + offset;
+            for(auto unit: Battlefield::getUnits())
+            {
+                if(unit->getSide() == side) 
+                    continue;
+                auto x = absPos.x - unit->getPos().x;
+                auto y = absPos.y - unit->getPos().y;
+                auto distance = sqrt(x*x + y*y);
+                if(distance < unit->getRadius())
+                {
+                    attack->attack(*this, *unit);
+                    return;
+                }
+            }
+
 			destination = relativePos + offset;
-            std::cout<<destination.x<<","<<destination.y<<std::endl;
+            // std::cout<<destination.x<<","<<destination.y<<std::endl;
 		}
 	}
 
@@ -64,6 +81,11 @@ void Player::update(sf::Time delta)
 {
     if(!rotate())
         move();   
+}
+
+Type Player::getType() const
+{
+    return Type::player;
 }
 
 

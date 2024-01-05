@@ -13,7 +13,7 @@ namespace sfGame
 class Soldier: public MilitaryUnit
 {
     public:
-        Soldier(Side side, sf::Sprite sprite, float HP, float FOV, float DEF, float velocity);
+        Soldier(Side side, sf::Sprite sprite, int HP, int ATK, float FOV, float velocity);
         ~Soldier();
         void handleInput(sf::RenderWindow &window){}
         void update(sf::Time delta);
@@ -21,6 +21,7 @@ class Soldier: public MilitaryUnit
         bool detect();
         void setRoute(const Route &route);
         bool rotate();
+        Type getType() const;
 
     private:
         Movable *moveBehavior;

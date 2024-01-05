@@ -1,6 +1,19 @@
 #include "MilitaryUnit.h"
+#include <iostream>
 
 using namespace sfGame;
+
+MilitaryUnit::MilitaryUnit(Side side, sf::Sprite sprite, int HP, int ATK):
+    side(side), sprite(sprite), HP(HP), ATK(ATK)
+{
+    moveBehavior = NULL;
+    rotateBehavior = NULL;
+    detectBehavior = NULL;
+    // shell = NULL;
+    attack = NULL;
+    destination = getPos();
+}
+
 
 sf::FloatRect MilitaryUnit::getBounds() const
 {
@@ -24,24 +37,20 @@ void MilitaryUnit::beingAttacked(float damage)
     else HP = 0;
 }
 
-float MilitaryUnit::getHP() const
+int MilitaryUnit::getHP() const
 {
     return HP;
 }
 
-float MilitaryUnit::getDEF() const
+int MilitaryUnit::getATK() const
 {
-    return DEF;
+    return ATK;
 }
+
 
 bool MilitaryUnit::isDead() const
 {
     return HP<=0;
-}
-
-Type MilitaryUnit::getType() const
-{
-    return type;
 }
 
 Side MilitaryUnit::getSide() const
