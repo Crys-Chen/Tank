@@ -7,11 +7,11 @@ extern AssetManager manager;
 
 
 Tower::Tower(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval, float FOV):
-    MilitaryUnit(side, sprite, HP, ATK, attackRange, attackInterval) 
+    MilitaryUnit(side, sprite, HP, ATK) 
 {
     rotateBehavior = new Rotatable(1.5);
     detectBehavior = new LockDetect(FOV);
-    attackBehavior = new Attack(ShellSize::large, ATK);
+    attackBehavior = new Attack(ShellSize::large, ATK, attackRange, attackInterval);
 }
 
 Tower::~Tower()
@@ -59,21 +59,21 @@ bool Tower::rotate()
 
 bool Tower::attack(sf::Time delta)
 {
-    attackClock += delta;
+    // attackClock += delta;
     
-    if(target == NULL) 
-        return false;
+    // if(target == NULL) 
+    //     return false;
     
-    // std::cout<<"attack!"<<std::endl;
-    if(attackClock > attackInterval)
-    { 
-        attackClock = sf::Time::Zero;
-        attackBehavior->attack(*this, *target);
-        target = NULL;
-        // std::cout<<"attack!"<<std::endl;
-    }
+    // // std::cout<<"attack!"<<std::endl;
+    // if(attackClock > attackInterval)
+    // { 
+    //     attackClock = sf::Time::Zero;
+    //     attackBehavior->attack(*this, *target);
+    //     target = NULL;
+    //     // std::cout<<"attack!"<<std::endl;
+    // }
 
-    return true;
+    return attackBehavior->attack(*this, delta);
 }
 
 

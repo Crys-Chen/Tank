@@ -39,7 +39,7 @@ class Attack;
 class MilitaryUnit
 {
     public:
-        MilitaryUnit(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval);
+        MilitaryUnit(Side side, sf::Sprite sprite, int HP, int ATK);
         virtual ~MilitaryUnit() = default;
         //virtual bool detect(const Units &enemies) = 0;
         sf::FloatRect getBounds() const;
@@ -61,6 +61,8 @@ class MilitaryUnit
         virtual void handleInput(sf::RenderWindow &window) = 0;
         virtual void update(sf::Time delta) = 0;
         void render(sf::RenderWindow& window);
+
+        friend class Attack;
     protected:
         Side side;
         sf::Sprite sprite; //贴图
@@ -75,10 +77,10 @@ class MilitaryUnit
         Detect *detectBehavior;
         Attack *attackBehavior;
         MilitaryUnit *target;
-        float attackRange;
-        sf::Time attackInterval;
+        // float attackRange;
+        // sf::Time attackInterval;
 
-        sf::Time attackClock;
+        // sf::Time attackClock;
         
 
 };

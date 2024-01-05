@@ -3,12 +3,12 @@
 using namespace sfGame;
 
 Soldier::Soldier(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval, float FOV, float velocity):
-    MilitaryUnit(side, sprite, HP, ATK, attackRange, attackInterval)
+    MilitaryUnit(side, sprite, HP, ATK)
 {
     moveBehavior = new SoldierMove(velocity);
     rotateBehavior = new Rotatable(1);
     detectBehavior = new MinDetect(FOV);
-    attackBehavior = new Attack(ShellSize::small, ATK);
+    attackBehavior = new Attack(ShellSize::small, ATK, attackRange, attackInterval);
     moveDest = getPos();
     if(!moveBehavior || !rotateBehavior || !detectBehavior || !attackBehavior)
         std::cout<<"new error!"<<std::endl;
@@ -45,24 +45,25 @@ void Soldier::update(sf::Time delta)
 
 bool Soldier::attack(sf::Time delta)
 {
-    attackClock += delta;
+    // attackClock += delta;
 
-    if(target == NULL) return false;
-    if(Battlefield::getDistance(this, target) > attackRange)
-    {
-        moveDest = target->getPos();
-        return false;
-    }
+    // if(target == NULL) return false;
+    // if(Battlefield::getDistance(this, target) > attackRange)
+    // {
+    //     moveDest = target->getPos();
+    //     return false;
+    // }
 
-    if(attackClock > attackInterval)
-    {
-        attackClock = sf::Time::Zero;
-        attackBehavior->attack(*this, *target);
-        target = NULL;
-    }
+    // if(attackClock > attackInterval)
+    // {
+    //     attackClock = sf::Time::Zero;
+    //     attackBehavior->attack(*this, *target);
+    //     target = NULL;
+    // }
 
-    moveDest = getPos();
-    return true;
+    // moveDest = getPos();
+    // return true;
+    return attackBehavior->attack(*this, delta);
 }
 
 bool Soldier::rotate()

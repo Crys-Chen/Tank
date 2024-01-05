@@ -3,8 +3,8 @@
 
 using namespace sfGame;
 
-MilitaryUnit::MilitaryUnit(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval):
-    side(side), sprite(sprite), HP(HP), ATK(ATK), attackRange(attackRange), attackInterval(attackInterval)
+MilitaryUnit::MilitaryUnit(Side side, sf::Sprite sprite, int HP, int ATK):
+    side(side), sprite(sprite), HP(HP), ATK(ATK)
 {
     moveBehavior = NULL;
     rotateBehavior = NULL;
@@ -13,8 +13,6 @@ MilitaryUnit::MilitaryUnit(Side side, sf::Sprite sprite, int HP, int ATK, float 
     target = NULL;
     attackBehavior = NULL;
     rotateDest = moveDest = getPos();
-
-    attackClock = sf::Time::Zero;
      
 }
 
