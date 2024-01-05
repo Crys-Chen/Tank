@@ -20,6 +20,7 @@ bool LockDetect::detect(MilitaryUnit *self, MilitaryUnit *&target)
     Units enemiesInVision;
     for (auto i : units)
     {
+        if(i->isDead()) continue;
         if(i->getSide() == self->getSide())  //大水淹了龙王庙
             continue;
         if(Battlefield::getDistance(self, i) < FOV) //检测到了敌人
@@ -45,6 +46,7 @@ bool MinDetect::detect(MilitaryUnit *self, MilitaryUnit *&target)
 
     for (auto i : units)
     {
+        if(i->isDead()) continue;
         if(i->getSide() == self->getSide())  //大水淹了龙王庙
             continue;
         auto distance = Battlefield::getDistance(self, i);

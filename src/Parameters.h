@@ -15,18 +15,24 @@ const int middle = windowWidth / 2;
 
 
 //player
-const int playerATK = 1;
+const int playerATK = 2;
+const int playerHP = 10;
+const int playerAttackRange = 200;
+const sf::Time playerAttackInterval = sf::seconds(1);
+const int refreshGap = 5;
 
 
 
 //towers
 const std::vector<sf::Vector2f> blueTowersPos = {sf::Vector2f(middle,90), sf::Vector2f(415,688), sf::Vector2f(880,688), sf::Vector2f(370,1197), sf::Vector2f(1028,1197)};
 const std::vector<sf::Vector2f> redTowersPos = {sf::Vector2f(middle,2810), sf::Vector2f(415,2210), sf::Vector2f(880,2210), sf::Vector2f(275,1710), sf::Vector2f(933,1710)};
-const int towerHP = 2;
-const float towerFOV = 300;
-const int towerATK = 1;
+const int towerHP = 10;
+const float towerFOV = 400;
+const int towerATK = 2;
 
-const float genSoldierInterval = 5.0;
+const int towerAttackRange = 400;
+const sf::Time towerAttackInterval = sf::seconds(2);
+const float genSoldierInterval = 30.0;
 
 //soldier
 typedef std::vector<sf::Vector2f> Route;
@@ -39,14 +45,16 @@ const Route redLeftRoute = {blueLeftRoute[4], blueLeftRoute[3], blueLeftRoute[2]
 const Route redRightRoute = {blueRightRoute[4], blueRightRoute[3], blueRightRoute[2], blueRightRoute[1], blueRightRoute[0]};
 
 const float soldierGap = 60;
-const int soldierHP = 1;
-const float soldierFOV = 100;
+const int soldierHP = 5;
+const float soldierFOV = 300;
 const int soldierATK = 1;
+const int soldierAttackRange = 100;
+const sf::Time soldierAttackInterval = sf::seconds(2);
 
 
 
 //shell
-const float shellVelocity = 2;
+const float shellVelocity = 5;
 }
 
 #endif

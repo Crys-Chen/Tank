@@ -2,6 +2,7 @@
 #define BATTLEFIELD
 #include <iostream>
 #include <assert.h>
+#include <map>
 
 #include "ThreadPool.h"
 #include "MilitaryUnit.h"
@@ -44,7 +45,13 @@ class Battlefield
 
         static Shells& getShells();
 
+        static bool isOver();
+
+        static Side getWinner();
+
         static void update(sf::Time delta);
+
+        static Battlefield *instance;
 
         // static void generateSoldiers(sf::Time delta, Nexus *blueNexus, Nexus *redNexus);
 
@@ -52,8 +59,12 @@ class Battlefield
     private:
         Distance distance;
         Units units;
+        Units deadUnits;
         Shells shells;
-        static Battlefield *instance;
+        Shells overShells;
+        
+        bool gameOver;
+        Side winner;
 
         static bool checkUnitCollison(const MilitaryUnit *unit1, const MilitaryUnit *unit2);
         static bool checkObstacleCollison(const sf::Sprite &sprite1, sf::Vector2f &collisionObj);

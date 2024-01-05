@@ -2,13 +2,16 @@
 
 using namespace sfGame;
 
-Soldier::Soldier(Side side, sf::Sprite sprite, int HP, int ATK, float FOV, float velocity):
-    MilitaryUnit(side, sprite, HP, ATK)
+Soldier::Soldier(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval, float FOV, float velocity):
+    MilitaryUnit(side, sprite, HP, ATK, attackRange, attackInterval)
 {
     moveBehavior = new SoldierMove(velocity);
     rotateBehavior = new Rotatable(1);
     detectBehavior = new MinDetect(FOV);
-    destination = getPos();
+    attackBehavior = new Attack(ShellSize::small, ATK);
+    moveDest = getPos();
+    if(!moveBehavior || !rotateBehavior || !detectBehavior || !attackBehavior)
+        std::cout<<"new error!"<<std::endl;
 }
 
 Soldier::~Soldier()
@@ -16,6 +19,7 @@ Soldier::~Soldier()
     delete moveBehavior;
     delete rotateBehavior;
     delete detectBehavior;
+    delete attackBehavior;
 }
 
 Type Soldier::getType() const
@@ -30,32 +34,60 @@ void Soldier::setRoute(const Route &route)
 
 void Soldier::update(sf::Time delta)
 {
+    if(isDead()) return;
     detect();
     if(!rotate())
-        move(); 
+    {
+        if(!attack(delta))
+            move();
+    }     
+}
+
+bool Soldier::attack(sf::Time delta)
+{
+    attackClock += delta;
+
+    if(target == NULL) return false;
+    if(Battlefield::getDistance(this, target) > attackRange)
+    {
+        moveDest = target->getPos();
+        return false;
+    }
+
+    if(attackClock > attackInterval)
+    {
+        attackClock = sf::Time::Zero;
+        attackBehavior->attack(*this, *target);
+        target = NULL;
+    }
+
+    moveDest = getPos();
+    return true;
 }
 
 bool Soldier::rotate()
 {
-    // auto destination = getPos();
-    return rotateBehavior->rotate(*this, destination);
+    // auto moveDest = getPos();
+    return rotateBehavior->rotate(*this, rotateDest);
 }
 
 void Soldier::move()
 {
-    // auto destination = getPos();
-    moveBehavior->move(*this, destination);
+    // auto moveDest = getPos();
+    moveBehavior->move(*this, moveDest);
 }
 
 bool Soldier::detect()
 {
-    MilitaryUnit *target = NULL;
     if(detectBehavior->detect(this, target))
     {
         // std::cout<<"detect enemy!"<<std::endl;
-        destination = target->getPos();
+        // moveDest = target->getPos();
+        moveDest = getPos();
+        rotateDest = target->getPos();
         return true;
     }
+    rotateDest = moveDest;
     return false;
 }
 

@@ -25,7 +25,8 @@ enum Type
 {
     player,
     tower,
-    soldier
+    soldier,
+    nexus
 };
 
 class Movable;
@@ -38,7 +39,7 @@ class Attack;
 class MilitaryUnit
 {
     public:
-        MilitaryUnit(Side side, sf::Sprite sprite, int HP, int ATK);
+        MilitaryUnit(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval);
         virtual ~MilitaryUnit() = default;
         //virtual bool detect(const Units &enemies) = 0;
         sf::FloatRect getBounds() const;
@@ -55,7 +56,8 @@ class MilitaryUnit
         virtual void move() = 0;
         virtual bool detect() = 0;
         virtual bool rotate() = 0;
-        void beingAttacked(float damage);
+        virtual bool attack(sf::Time delta) = 0;
+        void beingAttacked(int damage);
         virtual void handleInput(sf::RenderWindow &window) = 0;
         virtual void update(sf::Time delta) = 0;
         void render(sf::RenderWindow& window);
@@ -65,11 +67,18 @@ class MilitaryUnit
         int HP; //血量
         int ATK;
 
-        sf::Vector2f destination;
+        
         Movable *moveBehavior;
+        sf::Vector2f moveDest;
         Rotatable *rotateBehavior;
+        sf::Vector2f rotateDest;
         Detect *detectBehavior;
-        Attack *attack;
+        Attack *attackBehavior;
+        MilitaryUnit *target;
+        float attackRange;
+        sf::Time attackInterval;
+
+        sf::Time attackClock;
         
 
 };

@@ -3,7 +3,7 @@
 
 using namespace sfGame;
 
-Battlefield* Battlefield::instance=nullptr;
+Battlefield* Battlefield::instance = nullptr;
 extern ThreadPool threadPool;
 
 Battlefield::Battlefield()
@@ -12,6 +12,12 @@ Battlefield::Battlefield()
     instance=this;
     distance.resize(units.size());
     shells.resize(0);
+    units.resize(0);
+    shells.resize(0);
+    overShells.resize(0);
+    deadUnits.resize(0);
+
+    gameOver = false;
     for(size_t i = 0; i < units.size(); i++)
     {
         distance[i].resize(units.size());
@@ -22,6 +28,7 @@ Battlefield::Battlefield()
 
 Battlefield::~Battlefield()
 {
+    delete instance;
     for(auto i : units)
         delete i;
     for(auto i : shells)
@@ -125,7 +132,7 @@ bool Battlefield::checkCollision(MilitaryUnit *unit, sf::Vector2f &collisionObj)
         
     for(auto i : instance->units)
     {
-        if(i == unit)
+        if(i == unit || i->isDead())
             continue;
         if(checkUnitCollison(unit, i))
         {
@@ -151,30 +158,36 @@ void Battlefield::shellUpdate(Shell *shell)
 
 void Battlefield::update(sf::Time delta)
 {
+    instance->distance.clear();
     instance->distance.resize(instance->units.size());
     for(size_t i = 0; i < instance->units.size(); i++)
     {
+        if(instance->units[i]->isDead()) continue;
         instance->distance[i].resize(instance->units.size());
         for(size_t j = 0; j < instance->units.size(); j++)
+        {
+            if(instance->units[j]->isDead()) continue;
             instance->distance[i][j] = calDistance(instance->units[i]->getPos(), instance->units[j]->getPos());
+        }
+            
     }
     
-    std::vector<std::future<void>> unitsFut;
-    std::vector<std::future<void>> shellsFut; 
+
     // ThreadPool pool(10);
 
     for(size_t i = 0; i < instance->units.size(); i++)
     {
         auto unit = instance->units[i];
+        if(unit->isDead()) continue;
         // unitsFut.push_back(threadPool.submit(unitUpdate, unit, delta));
         unitUpdate(unit, delta);
-        if(unit->isDead())
-        {
-            instance->units.erase(Units::iterator(&instance->units[i]));
-            i--;
-            if(unit != NULL && unit->getType() != Type::player)
-                delete unit;
-        }
+        // if(unit->isDead())
+        // {
+        //     instance->units.erase(Units::iterator(&instance->units[i]));
+        //     i--;
+        //     if(unit != NULL && unit->getType() != Type::player)
+        //         delete unit;
+        // }
     }
 
     for(size_t i = 0; i < instance->shells.size(); i++)

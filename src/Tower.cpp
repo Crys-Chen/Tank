@@ -6,27 +6,27 @@ extern AssetManager manager;
 
 
 
-Tower::Tower(Side side, sf::Sprite sprite, int HP, int ATK, float FOV):
-    MilitaryUnit(side, sprite, HP, ATK) 
+Tower::Tower(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval, float FOV):
+    MilitaryUnit(side, sprite, HP, ATK, attackRange, attackInterval) 
 {
     rotateBehavior = new Rotatable(1.5);
     detectBehavior = new LockDetect(FOV);
-
+    attackBehavior = new Attack(ShellSize::large, ATK);
 }
 
 Tower::~Tower()
 {
     delete rotateBehavior;
     delete detectBehavior;
+    delete attackBehavior;
 }
 
 bool Tower::detect()
 {
-    MilitaryUnit *target = NULL;
     if(detectBehavior->detect(this, target))
     {
         // std::cout<<"detect enemy!"<<std::endl;
-        destination = target->getPos();
+        rotateDest = target->getPos();
         return true;
     }
     return false;
@@ -34,14 +34,19 @@ bool Tower::detect()
 
 void Tower::update(sf::Time delta)
 {
+    if(isDead()) return;
     if(detect())
-        rotate();
+    {
+        if(!rotate()) //转完了再攻击
+            attack(delta);
+    }
+        
     else//归位
     {
         if(side == Side::Blue)
-            destination = getPos() + sf::Vector2f(0, 100);
+            rotateDest = getPos() + sf::Vector2f(0, 100);
         else
-            destination = getPos() - sf::Vector2f(0, 100);
+            rotateDest = getPos() - sf::Vector2f(0, 100);
         rotate();
     }
         
@@ -49,7 +54,26 @@ void Tower::update(sf::Time delta)
 
 bool Tower::rotate()
 {
-    return rotateBehavior->rotate(*this, destination);
+    return rotateBehavior->rotate(*this, rotateDest);
+}
+
+bool Tower::attack(sf::Time delta)
+{
+    attackClock += delta;
+    
+    if(target == NULL) 
+        return false;
+    
+    // std::cout<<"attack!"<<std::endl;
+    if(attackClock > attackInterval)
+    { 
+        attackClock = sf::Time::Zero;
+        attackBehavior->attack(*this, *target);
+        target = NULL;
+        // std::cout<<"attack!"<<std::endl;
+    }
+
+    return true;
 }
 
 
@@ -58,8 +82,8 @@ Type Tower::getType() const
     return Type::tower;
 }
 
-Nexus::Nexus(Side side, sf::Sprite sprite, int HP, int ATK, float FOV):
-    Tower(side, sprite, HP, ATK, FOV)
+Nexus::Nexus(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval, float FOV):
+    Tower(side, sprite, HP, ATK, attackRange, attackInterval, FOV)
 {
 
 if(side == Side::Blue)
@@ -254,6 +278,11 @@ Nexus::~Nexus()
     delete detectBehavior;
 }
 
+Type Nexus::getType() const
+{
+    return Type::nexus;
+}
+
 void Nexus::generateSoldiers()
 {
     generate();
@@ -274,40 +303,49 @@ void Nexus::generateSoldiers()
 
 void Nexus::generate()
 {
-    auto soldier = new Soldier(side, midSoldiers[0],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,0.75);
+    auto soldier = new Soldier(side, midSoldiers[0],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,0.75);
+    if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(midRoute[0]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, midSoldiers[1],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,0.75);
+    soldier = new Soldier(side, midSoldiers[1],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,0.75);
+    if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(midRoute[1]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, midSoldiers[2],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,0.75);
+    soldier = new Soldier(side, midSoldiers[2],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,0.75);
+    if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(midRoute[2]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, leftSoldiers[0],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,1);
+    soldier = new Soldier(side, leftSoldiers[0],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,1);
+    if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(leftRoute[0]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, leftSoldiers[1],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,1.05);
+    soldier = new Soldier(side, leftSoldiers[1],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,1.05);
+    if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(leftRoute[1]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, leftSoldiers[2],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,0.95);
+    soldier = new Soldier(side, leftSoldiers[2],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,0.95);
+    if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(leftRoute[2]);
     Battlefield::registerUnit(soldier);
 
 
-    soldier = new Soldier(side, rightSoldiers[0],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,1);
+    soldier = new Soldier(side, rightSoldiers[0],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,1);
+    if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(rightRoute[0]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, rightSoldiers[1],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,0.95);
+    soldier = new Soldier(side, rightSoldiers[1],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,0.95);
+    if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(rightRoute[1]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, rightSoldiers[2],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierFOV,1.05);
+    soldier = new Soldier(side, rightSoldiers[2],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,1.05);
+    if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(rightRoute[2]);
     Battlefield::registerUnit(soldier);
 

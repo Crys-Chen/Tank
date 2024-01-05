@@ -3,15 +3,19 @@
 
 using namespace sfGame;
 
-MilitaryUnit::MilitaryUnit(Side side, sf::Sprite sprite, int HP, int ATK):
-    side(side), sprite(sprite), HP(HP), ATK(ATK)
+MilitaryUnit::MilitaryUnit(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval):
+    side(side), sprite(sprite), HP(HP), ATK(ATK), attackRange(attackRange), attackInterval(attackInterval)
 {
     moveBehavior = NULL;
     rotateBehavior = NULL;
     detectBehavior = NULL;
     // shell = NULL;
-    attack = NULL;
-    destination = getPos();
+    target = NULL;
+    attackBehavior = NULL;
+    rotateDest = moveDest = getPos();
+
+    attackClock = sf::Time::Zero;
+     
 }
 
 
@@ -30,7 +34,7 @@ sf::Vector2f MilitaryUnit::getPos() const
     return sprite.getPosition();
 }
 
-void MilitaryUnit::beingAttacked(float damage)
+void MilitaryUnit::beingAttacked(int damage)
 {
     if(HP - damage > 0)
         HP -= damage;

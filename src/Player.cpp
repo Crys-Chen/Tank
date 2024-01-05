@@ -3,20 +3,22 @@
 
 using namespace sfGame;
 
-Player::Player(Side side, sf::Sprite sprite, int HP, int ATK, float FOV):
-    MilitaryUnit(side, sprite, HP, ATK) 
+Player::Player(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval, float FOV):
+    MilitaryUnit(side, sprite, HP, ATK, attackRange, attackInterval) 
     {
-        // destination = sprite.getPosition();
+        // moveDest = sprite.getPosition();
         moveBehavior = new PlayerMove(3);
         rotateBehavior = new Rotatable(1);
-        attack = new Attack(ShellSize::medium, 1);
+        attackBehavior = new Attack(ShellSize::medium, ATK);
+        if(!moveBehavior || !rotateBehavior || !attackBehavior)
+            std::cout<<"new error!"<<std::endl;
     }
 
 Player::~Player()
 {
     delete moveBehavior;
     delete rotateBehavior;
-    delete attack;
+    delete attackBehavior;
 }
 
 
@@ -65,13 +67,16 @@ void Player::handleInput(sf::RenderWindow &window)
                 auto distance = sqrt(x*x + y*y);
                 if(distance < unit->getRadius())
                 {
-                    attack->attack(*this, *unit);
-                    return;
+                    target = unit;
+                    rotateDest = unit->getPos();
+                    moveDest = getPos(); //别动！
+                    return ;
                 }
             }
 
-			destination = relativePos + offset;
-            // std::cout<<destination.x<<","<<destination.y<<std::endl;
+			moveDest = absPos;
+            rotateDest = absPos;
+            // std::cout<<moveDest.x<<","<<moveDest.y<<std::endl;
 		}
 	}
 
@@ -79,8 +84,12 @@ void Player::handleInput(sf::RenderWindow &window)
 
 void Player::update(sf::Time delta)
 {
+    if(isDead()) return;
     if(!rotate())
-        move();   
+    {
+        if(!attack(delta))
+            move();
+    }     
 }
 
 Type Player::getType() const
@@ -92,10 +101,40 @@ Type Player::getType() const
 
 void Player::move()
 {
-    moveBehavior->move(*this, destination);
+    moveBehavior->move(*this, moveDest);
 }
 
 bool Player::rotate()
 {
-    return rotateBehavior->rotate(*this, destination);
+    return rotateBehavior->rotate(*this, rotateDest);
+}
+
+void Player::refresh()
+{
+    std::this_thread::sleep_for(std::chrono::seconds(Parameter::refreshGap));
+    sprite.setPosition(sf::Vector2f(800,85));
+    HP = Parameter::playerHP;
+}
+
+bool Player::attack(sf::Time delta)
+{
+    attackClock += delta;
+
+    if(target == NULL) return false;
+    if(Battlefield::getDistance(this, target) > attackRange)
+    {
+        moveDest = target->getPos();
+        return false;
+    }
+
+
+    if(attackClock > attackInterval)
+    {
+        attackClock = sf::Time::Zero;
+        attackBehavior->attack(*this, *target);
+        target = NULL;
+    }
+
+    moveDest = getPos();
+    return true;
 }

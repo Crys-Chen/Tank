@@ -6,6 +6,7 @@
 #include "Rotatable.h"
 #include "Detect.h"
 #include "AssetManager.h"
+#include "Attack.h"
 
 namespace sfGame{
 
@@ -14,12 +15,13 @@ namespace sfGame{
 class Tower: public MilitaryUnit
 {
     public:
-        Tower(Side side, sf::Sprite sprite, int HP, int ATK, float FOV);
+        Tower(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval, float FOV);
         ~Tower();
         void move() {}
         Type getType() const;
         bool rotate();
         bool detect();
+        bool attack(sf::Time delta);
         void update(sf::Time delta);
         void handleInput(sf::RenderWindow &window){}
     protected:
@@ -32,8 +34,9 @@ class Tower: public MilitaryUnit
 class Nexus: public Tower
 {
     public:
-        Nexus(Side side, sf::Sprite sprite, int HP, int ATK, float FOV);
+        Nexus(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval, float FOV);
         ~Nexus();
+        Type getType() const;
         // void update(sf::Time delta)
         void move(){}
         void handleInput(sf::RenderWindow &window){}

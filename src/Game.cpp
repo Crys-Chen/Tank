@@ -3,7 +3,8 @@
 using namespace sfGame;
 
 AssetManager manager;
-Battlefield battlefield;
+// extern Battlefield* Battlefield::instance;
+
 ThreadPool threadPool(30);
 
 const sf::Time Game::TimePerFrame = Parameter::timePerFrame;
@@ -15,9 +16,10 @@ Game::Game(): window(sf::VideoMode(Parameter::windowWidth, Parameter::windowHeig
 view(sf::FloatRect(0.f, 0.f, Parameter::windowWidth, Parameter::windowHeight))
 {
     threadPool.init();
-	bgMusic.openFromFile("Music/bg_music.wav");
-	bgMusic.setLoop(true);
-	bgMusic.play();
+	// bgMusic.openFromFile("Music/bg_music.wav");
+	// bgMusic.setLoop(true);
+	// bgMusic.play();
+    
 }
 
 Game::~Game()
