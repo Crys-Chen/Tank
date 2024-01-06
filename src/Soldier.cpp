@@ -6,7 +6,7 @@ Soldier::Soldier(Side side, sf::Sprite sprite, int HP, int ATK, float attackRang
     MilitaryUnit(side, sprite, HP)
 {
     moveBehavior = new SoldierMove(velocity);
-    rotateBehavior = new Rotatable(omega);
+    rotateBehavior = new Rotate(omega);
     detectBehavior = new MinDetect(FOV);
     attackBehavior = new Attack(ShellSize::small, ATK, attackRange, attackInterval);
     moveDest = getPos();
@@ -56,7 +56,6 @@ bool Soldier::rotate()
 
 void Soldier::move()
 {
-    // auto moveDest = getPos();
     moveBehavior->move(*this, moveDest);
 }
 

@@ -9,7 +9,7 @@ Player::Player(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange,
     {
         // moveDest = sprite.getPosition();
         moveBehavior = new PlayerMove(velocity);
-        rotateBehavior = new Rotatable(omega);
+        rotateBehavior = new Rotate(omega);
         attackBehavior = new Attack(ShellSize::medium, ATK, attackRange, attackInterval);
         lockCircle.setOrigin(15,15);
     }
@@ -37,7 +37,7 @@ void Player::handleInput(sf::RenderWindow &window)
 
         for(auto unit: Battlefield::getUnits())
         {
-            if(unit->getSide() == side) 
+            if(unit->getSide() == side || unit->isDead()) 
                 continue;
             auto x = absPos.x - unit->getPos().x;
             auto y = absPos.y - unit->getPos().y;

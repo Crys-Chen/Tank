@@ -190,7 +190,6 @@ void Battlefield::update(sf::Time delta)
             if(instance->units[j]->isDead()) continue;
             instance->distance[i][j] = calDistance(instance->units[i]->getPos(), instance->units[j]->getPos());
         }
-            
     }
 
     for(auto unit: instance->units)

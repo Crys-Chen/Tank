@@ -3,7 +3,7 @@
 
 #include "Parameters.h"
 #include "Soldier.h"
-#include "Rotatable.h"
+#include "Rotate.h"
 #include "Detect.h"
 #include "AssetManager.h"
 #include "Attack.h"
@@ -24,10 +24,7 @@ class Tower: public MilitaryUnit
         bool attack(sf::Time delta);
         void update(sf::Time delta);
         void handleInput(sf::RenderWindow &window){}
-    protected:
-        // Rotatable *rotateBehavior;
-        // Detect *detectBehavior;
-        // sf::Vector2f destination;
+
 
 };
 
@@ -39,7 +36,7 @@ class Nexus: public Tower
         Type getType() const;
         // void update(sf::Time delta)
         void move(){}
-        void handleInput(sf::RenderWindow &window){}
+        // void handleInput(sf::RenderWindow &window){}
         void generateSoldiers();
         void generate();
     private:

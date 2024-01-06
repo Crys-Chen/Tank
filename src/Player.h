@@ -6,7 +6,7 @@
 #include "MilitaryUnit.h"
 #include "Move.h"
 #include "AssetManager.h"
-#include "Rotatable.h"
+#include "Rotate.h"
 #include "Attack.h"
 
 namespace sfGame{

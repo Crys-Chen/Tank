@@ -82,28 +82,4 @@ void MilitaryUnit::render(sf::RenderWindow& window)
     window.draw(HPbar);
 }
 
-// bool MilitaryUnit::see(sf::Vector2f enemyPos)
-// {
-//     auto distanceX = enemyPos.x - getPos().x;
-//     auto distanceY = enemyPos.y - getPos().y;
-//     return sqrt(distanceX * distanceX + distanceY * distanceY) < FOV;
-// }
-
-// bool MilitaryUnit::detect(const Units &enemies)
-// {
-// 	for (auto it = enemies.begin(); it != enemies.end(); ++it)
-// 	{
-// 		if (see(it->getPos())) //检测到了敌人
-// 			toRemove = it; //吃到了it这个果子
-// 	}
-
-// 	if (toRemove != fruits.end()) //吃到果子了
-// 	{
-// 		pickupSound_.play();
-// 		auto score=toRemove->score();
-// 		while(score--) grow(); //按分数生长
-// 		fruits.erase(toRemove); //删掉toRemove这个果子
-// 	}
-// }
-
 

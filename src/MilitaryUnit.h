@@ -30,7 +30,7 @@ enum Type
 };
 
 class Move;
-class Rotatable;
+class Rotate;
 class Detect;
 class Shell;
 class Attack;
@@ -61,7 +61,7 @@ class MilitaryUnit
         virtual bool rotate() = 0;
         virtual bool attack(sf::Time delta) = 0;
         
-        virtual void handleInput(sf::RenderWindow &window) = 0;
+        virtual void handleInput(sf::RenderWindow &window){}
         virtual void update(sf::Time delta) = 0;
         virtual void render(sf::RenderWindow& window);
 
@@ -70,12 +70,11 @@ class MilitaryUnit
         Side side;
         sf::Sprite sprite; //贴图
         int HP; //血量
-        // int ATK;
 
         
         Move *moveBehavior;
         sf::Vector2f moveDest;
-        Rotatable *rotateBehavior;
+        Rotate *rotateBehavior;
         sf::Vector2f rotateDest;
         Detect *detectBehavior;
         Attack *attackBehavior;
