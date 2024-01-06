@@ -27,37 +27,15 @@ void Player::handleInput(sf::RenderWindow &window)
 	sf::Event event;
 	while(window.pollEvent(event))
 	{
-		if (event.type == sf::Event::Closed) window.close();
-		// if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		// {
-		// 	direction_ = Direction::Up;
-		// 	accelerate_=true;	
-		// }
-		// else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		// {	
-		// 	direction_ = Direction::Down;
-		// 	accelerate_=true;	
-		// }
-		// else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		// {	
-		// 	direction_ = Direction::Left;
-		// 	accelerate_=true;
-		// }	
-		// else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		// {
-		// 	direction_ = Direction::Right;
-		// 	accelerate_=true;
-		// }
-		// else if(event.type==sf::Event::KeyReleased||event.type==sf::Event::MouseButtonReleased)
-		// {
-		// 	accelerate_=false;
-		// }
+		if (event.type == sf::Event::Closed) 
+            window.close();
 		else if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
             auto relativePos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)); 
             // auto offset = window.getView().getCenter() - sf::Vector2f(Game::windowWidth/2, Game::windowHeight/2);
             auto offset = window.getView().getCenter() - sf::Vector2f(640, 480);
             auto absPos = relativePos + offset;
+            
             for(auto unit: Battlefield::getUnits())
             {
                 if(unit->getSide() == side) 
@@ -74,6 +52,7 @@ void Player::handleInput(sf::RenderWindow &window)
                 }
             }
 
+            target = NULL;
 			moveDest = absPos;
             rotateDest = absPos;
             // std::cout<<moveDest.x<<","<<moveDest.y<<std::endl;

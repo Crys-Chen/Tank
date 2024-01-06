@@ -82,12 +82,11 @@ bool Soldier::detect()
 {
     if(detectBehavior->detect(this, target))
     {
-        // std::cout<<"detect enemy!"<<std::endl;
-        // moveDest = target->getPos();
         moveDest = getPos();
         rotateDest = target->getPos();
         return true;
     }
+    target = NULL;
     rotateDest = moveDest;
     return false;
 }

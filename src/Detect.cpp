@@ -18,9 +18,11 @@ bool LockDetect::detect(MilitaryUnit *self, MilitaryUnit *&target)
         return true;
     
     Units enemiesInVision;
+    enemiesInVision.clear();
     for (auto i : units)
     {
-        if(i->isDead()) continue;
+        if(i->isDead()) 
+            continue;
         if(i->getSide() == self->getSide())  //大水淹了龙王庙
             continue;
         if(Battlefield::getDistance(self, i) < FOV) //检测到了敌人
@@ -28,7 +30,11 @@ bool LockDetect::detect(MilitaryUnit *self, MilitaryUnit *&target)
     }
 
     if(enemiesInVision.empty()) 
+    {
+        target = NULL;
         return false;
+    }
+        
     
     std::uniform_int_distribution<int> distribution(0, enemiesInVision.size()-1); //int随机数范围是闭区间，最后得-1
     target = enemiesInVision[distribution(random)];
@@ -46,7 +52,8 @@ bool MinDetect::detect(MilitaryUnit *self, MilitaryUnit *&target)
 
     for (auto i : units)
     {
-        if(i->isDead()) continue;
+        if(i->isDead()) 
+            continue;
         if(i->getSide() == self->getSide())  //大水淹了龙王庙
             continue;
         auto distance = Battlefield::getDistance(self, i);
@@ -55,7 +62,11 @@ bool MinDetect::detect(MilitaryUnit *self, MilitaryUnit *&target)
     }
 
     if(enemiesInVision.empty()) 
+    {
+        target = NULL;
         return false;
+    }
+        
 
     target = enemiesInVision.top().target;
     return true;

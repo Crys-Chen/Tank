@@ -57,6 +57,8 @@ float Battlefield::calDistance(sf::Vector2f unit1, sf::Vector2f unit2)
 float Battlefield::getDistance(const MilitaryUnit *unit1, const MilitaryUnit *unit2) 
 {
     // assert(!unit1->isDead() && !unit2->isDead());
+    if(unit1->isDead() || unit2->isDead()) 
+        return 1E6;
     int index1 = std::find(instance->units.begin(), instance->units.end(), unit1) - instance->units.begin();
     int index2 = std::find(instance->units.begin(), instance->units.end(), unit2) - instance->units.begin();
     return instance->distance[index1][index2];

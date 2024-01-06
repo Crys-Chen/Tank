@@ -29,6 +29,7 @@ bool Tower::detect()
         rotateDest = target->getPos();
         return true;
     }
+    target = NULL;
     return false;
 }
 
@@ -59,19 +60,6 @@ bool Tower::rotate()
 
 bool Tower::attack(sf::Time delta)
 {
-    // attackClock += delta;
-    
-    // if(target == NULL) 
-    //     return false;
-    
-    // // std::cout<<"attack!"<<std::endl;
-    // if(attackClock > attackInterval)
-    // { 
-    //     attackClock = sf::Time::Zero;
-    //     attackBehavior->attack(*this, *target);
-    //     target = NULL;
-    //     // std::cout<<"attack!"<<std::endl;
-    // }
 
     return attackBehavior->attack(*this, delta);
 }
