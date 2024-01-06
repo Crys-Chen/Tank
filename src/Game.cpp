@@ -3,13 +3,14 @@
 using namespace sfGame;
 
 AssetManager manager;
-// extern Battlefield* Battlefield::instance;
 
 ThreadPool threadPool(30);
 
 const sf::Time Game::TimePerFrame = Parameter::timePerFrame;
 
-std::shared_ptr<Screen> Game::Screen = std::make_shared<MenuScreen>();
+// std::shared_ptr<Screen> Game::screen = std::make_shared<GameScreen>();
+// Screen* Game::screen = new GameScreen();
+Screen* Game::screen = new MenuScreen();
 
 
 Game::Game(): window(sf::VideoMode(Parameter::windowWidth, Parameter::windowHeight), "sfTank"),
@@ -25,6 +26,7 @@ view(sf::FloatRect(0.f, 0.f, Parameter::windowWidth, Parameter::windowHeight))
 Game::~Game()
 {
     threadPool.shutdown();
+    delete screen;
 }
 
 sf::Vector2i Game::windowPos()
@@ -43,7 +45,7 @@ void Game::handleInput()
 	// 		window.close();
 	// }
 	//为支持多样的输入处理，必须把event放到各个screen的handleinput中poll
-	Game::Screen->handleInput(window);
+	Game::screen->handleInput(window);
 }
 
 void Game::update()
@@ -59,7 +61,7 @@ void Game::update()
 		while (timeSinceLastUpdate > Game::TimePerFrame)
 		{
 			timeSinceLastUpdate -= TimePerFrame;
-			Game::Screen->update(TimePerFrame);
+			Game::screen->update(TimePerFrame);
 		}
 		
 	}
@@ -74,7 +76,7 @@ void gameUpdate(Game *game)
 void Game::render()
 {
 	window.clear();
-	Game::Screen->render(window,view);
+	Game::screen->render(window,view);
     window.setView(view);
 	window.display();
 }
@@ -87,6 +89,7 @@ void Game::run()
         handleInput();
         render();
     }
+    delete Game::screen;
 
 	// }
 

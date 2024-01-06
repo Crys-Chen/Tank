@@ -27,19 +27,10 @@ class GameScreen : public Screen
         void update(sf::Time delta) override;
         void render(sf::RenderWindow& window, sf::View &view) override;
 
-        static sf::Clock clock;
-        
-
     private:
         BackGround backGround;
-        Nexus *blueNexus, *redNexus;
-        Tower *blueTower, *redTower;
-        Player *player;
-        sf::Sprite blueTowerSprite[5], redTowerSprite[5];
-        sf::Sprite blueSoldierSprite[3], redSoldierSprite[3];
-        sf::Sprite playerSprite;
+        static Player *player;
 
-        static void generateSoldiers(Nexus *nexus);
        
 	
 };

@@ -15,6 +15,7 @@
 #include "Parameters.h"
 #include "Screen.h"
 #include "MenuScreen.h"
+#include "GameScreen.h"
 #include "AssetManager.h"
 #include "Battlefield.h"
 
@@ -33,7 +34,8 @@ public:
 	void render();
 	sf::Vector2i windowPos(); 
 
-	static std::shared_ptr<Screen> Screen;
+	// static std::shared_ptr<Screen> Screen;
+    static Screen *screen;
 
 private:
 	sf::RenderWindow window;

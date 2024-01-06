@@ -27,7 +27,7 @@ class Battlefield
 
         ~Battlefield();
 
-        static float calDistance(sf::Vector2f unit1, sf::Vector2f unit2);
+        // static void setInstance(Battlefield *instance);
 
         static float getDistance(const MilitaryUnit *unit1, const MilitaryUnit *unit2);
 
@@ -35,11 +35,7 @@ class Battlefield
 
         static void registerUnit(MilitaryUnit* unit);
 
-        static void removeUnit(MilitaryUnit* unit);
-
         static void registerShell(Shell* shell);
-
-        static void removeShell(Shell* shell);
 
         static Units& getUnits();
 
@@ -51,7 +47,7 @@ class Battlefield
 
         static void update(sf::Time delta);
 
-        static Battlefield *instance;
+        
 
         // static void generateSoldiers(sf::Time delta, Nexus *blueNexus, Nexus *redNexus);
 
@@ -62,14 +58,16 @@ class Battlefield
         Units deadUnits;
         Shells shells;
         Shells overShells;
+
+        static Battlefield *instance;
         
         bool gameOver;
         Side winner;
 
+        static float calDistance(sf::Vector2f unit1, sf::Vector2f unit2);
+
         static bool checkUnitCollison(const MilitaryUnit *unit1, const MilitaryUnit *unit2);
         static bool checkObstacleCollison(const sf::Sprite &sprite1, sf::Vector2f &collisionObj);
-        // static void unitUpdate(MilitaryUnit *unit, sf::Time delta);
-        // static void shellUpdate(Shell *shell);
 };
 
 }

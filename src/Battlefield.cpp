@@ -9,6 +9,7 @@ extern ThreadPool threadPool;
 Battlefield::Battlefield()
 {
     assert(instance==nullptr);
+    // if(instance != nullptr) return;
     instance=this;
     distance.resize(units.size());
     shells.resize(0);
@@ -34,6 +35,17 @@ Battlefield::~Battlefield()
     for(auto i : shells)
         delete i;
 }
+
+// void Battlefield::setInstance(Battlefield *instance)
+// {
+//     static bool already = false;
+//     if(already == true) return;
+//     if(instance != NULL)
+//     {
+//         Battlefield::instance = instance;
+//         already = true;
+//     }
+// }
 
 float Battlefield::calDistance(sf::Vector2f unit1, sf::Vector2f unit2)
 {
@@ -273,26 +285,26 @@ void Battlefield::registerShell(Shell* shell)
 
 
 
-void Battlefield::removeUnit(MilitaryUnit* unit)
-{
-    assert(unit != NULL);
-    // for(auto i = instance->units.begin(); i != instance->units.end(); i++)
-    // {
-    //     if(*i == unit)
-    auto i = std::find(instance->units.begin(), instance->units.end(), unit);
-    instance->units.erase(i);
-    // }
-}
+// void Battlefield::removeUnit(MilitaryUnit* unit)
+// {
+//     assert(unit != NULL);
+//     // for(auto i = instance->units.begin(); i != instance->units.end(); i++)
+//     // {
+//     //     if(*i == unit)
+//     auto i = std::find(instance->units.begin(), instance->units.end(), unit);
+//     instance->units.erase(i);
+//     // }
+// }
 
-void Battlefield::removeShell(Shell* shell)
-{
-    assert(shell != NULL);
-    for(auto i = instance->shells.begin(); i != instance->shells.end(); i++)
-    {
-        if(*i == shell)
-            instance->shells.erase(i);
-    }
-}
+// void Battlefield::removeShell(Shell* shell)
+// {
+//     assert(shell != NULL);
+//     for(auto i = instance->shells.begin(); i != instance->shells.end(); i++)
+//     {
+//         if(*i == shell)
+//             instance->shells.erase(i);
+//     }
+// }
 
 Units& Battlefield::getUnits()
 {

@@ -12,7 +12,6 @@ BackGround::BackGround()
 {
     setBack();
     setTimeRecord();
-    // back.setTextureRect(sf::IntRect(0, 0, 1280, 960 * 3));
     back.setScale(2.35,3.30);
 }
 
@@ -23,17 +22,11 @@ void BackGround::setBack()
     back.setPosition(0.0f,0.0f);
 }
 
-// void BackGround::set_cell()
-// {
-//     if(MenuScreen_2::cell_choice==Color::no) return;
-//     cell_texture=AssetManager::get_texture(cell[static_cast<int>(MenuScreen_2::cell_choice)]);
-//     cell_.setTexture(cell_texture);
-//     cell_.setPosition(0.0f,0.0f);
-// }
+
 
 void BackGround::setTimeRecord()
 {
-    int elapsed_time=GameScreen::clock.getElapsedTime().asSeconds();
+    int elapsed_time= clock.getElapsedTime().asSeconds();
 
     timeRecord.setFont(AssetManager::getFont("Fonts/game.ttf"));
     timeRecord.setString("Time:"+std::to_string(elapsed_time)+"s");
@@ -47,7 +40,7 @@ void BackGround::setTimeRecord()
 
 void BackGround::updateTimeRecord()
 {   
-    int elapsed_time=GameScreen::clock.getElapsedTime().asSeconds();
+    int elapsed_time= clock.getElapsedTime().asSeconds();
     timeRecord.setString("Time:"+std::to_string(elapsed_time)+"s");
 }
 

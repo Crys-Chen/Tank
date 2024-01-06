@@ -8,17 +8,24 @@ extern AssetManager manager;
 // extern Battlefield battlefield;
 extern ThreadPool threadPool;
 
-sf::Clock GameScreen::clock;
+Player* GameScreen::player = NULL;
+// sf::Clock GameScreen::clock;
 
 const std::vector<sf::Vector2f> blueTowersPos = Parameter::blueTowersPos;
 const std::vector<sf::Vector2f> redTowersPos = Parameter::redTowersPos;
+
+void generateSoldiers(Nexus *nexus)
+{
+    nexus->generateSoldiers();
+}
 
 
 GameScreen::GameScreen(): 
     backGround()
 {
-    Battlefield::instance = new Battlefield();
+    new Battlefield();
     assert(player == NULL);
+    std::cout<<"here!"<<std::endl;
     Nexus *blueNexus = NULL, *redNexus = NULL;
     sf::Sprite blueTowerSprite[5], redTowerSprite[5];
     sf::Sprite blueSoldierSprite[3], redSoldierSprite[3];
@@ -62,66 +69,15 @@ GameScreen::GameScreen():
 
 
 
-    // redNexus = new Nexus(Side::Red, blueTowerSprite, 1, 1, 1);
-    // Battlefield::registerUnit(redNexus);
-    // player = new Player(Side::Blue, playerSprite, 1, 1, 1);
-    // for(int i = 0; i < 5; i++)
-    // {
-    //     blueTower = new Tower(Side::Blue, blueTowerSprite, 1, 1, 1);
-    //     Battlefield::registerUnit(blueTower);
-    //     redTower = new Tower(Side::Red, blueTowerSprite, 1, 1, 1);
-    //     Battlefield::registerUnit(redTower);
-    // }
-    // //generateSoldiers(sf::seconds(1));
-    // distance = new Distance(units);
-    // std::cout<<"created gameScreen!"<<std::endl;
+
 
 }
 
-// GameScreen::~GameScreen()
-// {
-    
-// }
 
-void GameScreen::generateSoldiers(Nexus *nexus)
-{
-    // std::cout<<"here!"<<std::endl;
-    nexus->generateSoldiers();
-}
 
 void GameScreen::handleInput(sf::RenderWindow& window)
 {
 	player->handleInput(window);
-    
-	// sf::Event event;
-	// while(window.pollEvent(event))
-	// {
-	// 	if(event.type==sf::Event::Closed) window.close();
-	// 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-	// 		window.close();
-    //     else if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
-	// 	{
-	// 		auto mousePos=sf::Mouse::getPosition(window); //根据sfml官网，获得当前鼠标位置
-    //         std::cout << mousePos.x << "," << mousePos.y << std::endl;
-    //     //     if(play.inButton(mousePos))
-    //     //     {
-    //     //         std::cout<<"play!"<<std::endl;
-    //     //         Game::Screen = std::make_shared<GameScreen>();
-    //     //     }
-    //     //     else if(exit.inButton(mousePos))
-    //     //     {
-    //     //         // std::cout<<"play!"<<std::endl;
-    //     //         window.close();
-    //     //     }
-    //     //     else if(instruction.inButton(mousePos))
-    //     //     {
-    //     //         // Game::Screen = std::make_shared<MenuScreen_2>();
-    //     //         std::cout<<"instruction!"<<std::endl;
-    //     //         inst = true;
-    //     //     }
-            
-	// 	}
-	// }
 }
 
 void refresh(Player *player)
@@ -129,9 +85,8 @@ void refresh(Player *player)
     player->refresh();
 }
 
-void GameScreen::update(sf::Time delta) //未完成
+void GameScreen::update(sf::Time delta) 
 {
-	//generateSoldiers(delta);
     static bool playerRefresh = false;
 
     Battlefield::update(delta);

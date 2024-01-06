@@ -20,6 +20,7 @@ class BackGround
         sf::Text timeRecord;
         sf::Texture backTexture;
         sf::Sprite back;
+        sf::Clock clock;
 };
 }
 

@@ -29,6 +29,7 @@ class MenuScreen : public Screen
 {
     public:
         MenuScreen();
+        ~MenuScreen() = default;
 
         void handleInput(sf::RenderWindow& window) override;
         void update(sf::Time delta) override;
