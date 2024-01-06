@@ -35,9 +35,18 @@ bool LockDetect::detect(MilitaryUnit *self, MilitaryUnit *&target)
         return false;
     }
         
-    
-    std::uniform_int_distribution<int> distribution(0, enemiesInVision.size()-1); //int随机数范围是闭区间，最后得-1
-    target = enemiesInVision[distribution(random)];
+    if(enemiesInVision.size() == 1)
+        target = enemiesInVision[0];
+    else
+    {
+        do
+        {
+            std::uniform_int_distribution<int> distribution(0, enemiesInVision.size()-1); //int随机数范围是闭区间，最后得-1
+            target = enemiesInVision[distribution(random)];
+            
+        }while(target->getType() != Type::player);
+    }
+
     return true;
     
 

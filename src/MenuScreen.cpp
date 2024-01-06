@@ -36,10 +36,7 @@ void MenuScreen::handleInput(sf::RenderWindow& window)
             if(play.inButton(mousePos))
             {
                 std::cout<<"play!"<<std::endl;
-                auto temp = Game::screen;
-                // Game::screen = std::make_shared<GameScreen>();
                 Game::screen = new GameScreen();
-                delete temp;
             }
             else if(exit.inButton(mousePos))
             {

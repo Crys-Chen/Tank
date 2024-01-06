@@ -60,7 +60,7 @@ GameScreen::GameScreen():
     playerSprite.setOrigin(sf::Vector2f(18,18));
     playerSprite.setPosition(sf::Vector2f(800,85));
     playerSprite.setScale(2,2);
-    player = new Player(Side::Blue, playerSprite, Parameter::playerHP, Parameter::playerATK, Parameter::playerAttackRange, Parameter::playerAttackInterval, 1);
+    player = new Player(Side::Blue, playerSprite, Parameter::playerHP, Parameter::playerATK, Parameter::playerAttackRange, Parameter::playerAttackInterval, Parameter::playerVelocity, Parameter::playerOmega);
     Battlefield::registerUnit(player);
 
     threadPool.submit(generateSoldiers, blueNexus);

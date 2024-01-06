@@ -4,7 +4,7 @@
 using namespace sfGame;
 
 MilitaryUnit::MilitaryUnit(Side side, sf::Sprite sprite, int HP):
-    side(side), sprite(sprite), HP(HP)
+    side(side), sprite(sprite), HP(HP), HPbar(sf::Vector2f(HP*(Parameter::HPbarWidthCoff),Parameter::HPbarHeight))
 {
     moveBehavior = NULL;
     rotateBehavior = NULL;
@@ -14,6 +14,9 @@ MilitaryUnit::MilitaryUnit(Side side, sf::Sprite sprite, int HP):
     attackBehavior = NULL;
     rotateDest = moveDest = getPos();
      
+    HPbar.setFillColor(sf::Color::Green);
+    HPbar.setOrigin(HP*(Parameter::HPbarWidthCoff) / 2, Parameter::HPbarHeight/2);
+    HPbar.setPosition(getPos()+Parameter::HPbarDelta);
 }
 
 
@@ -44,10 +47,10 @@ int MilitaryUnit::getHP() const
     return HP;
 }
 
-// int MilitaryUnit::getATK() const
-// {
-//     return ATK;
-// }
+MilitaryUnit* MilitaryUnit::getTarget() const
+{
+    return target;
+}
 
 
 bool MilitaryUnit::isDead() const
@@ -74,6 +77,9 @@ sf::Sprite& MilitaryUnit::getSprite()
 void MilitaryUnit::render(sf::RenderWindow& window)
 {
     window.draw(sprite);
+    HPbar.setPosition(getPos()+Parameter::HPbarDelta);
+    HPbar.setSize(sf::Vector2f(HP*(Parameter::HPbarWidthCoff),Parameter::HPbarHeight));
+    window.draw(HPbar);
 }
 
 // bool MilitaryUnit::see(sf::Vector2f enemyPos)

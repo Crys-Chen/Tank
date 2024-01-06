@@ -13,11 +13,17 @@ const int mapWidth = 1280;
 const int mapHeight = 960 * 3;
 const int middle = windowWidth / 2;
 
+const int HPbarWidthCoff = 4;
+const int HPbarHeight = 5;
+const sf::Vector2f HPbarDelta = sf::Vector2f(0,-20);
+
 
 //player
 const int playerATK = 2;
 const int playerHP = 10;
-const int playerAttackRange = 200;
+const int playerAttackRange = 300;
+const float playerOmega = 2;
+const float playerVelocity = 2; 
 const sf::Time playerAttackInterval = sf::seconds(1);
 const int refreshGap = 5;
 
@@ -46,9 +52,11 @@ const Route redRightRoute = {blueRightRoute[4], blueRightRoute[3], blueRightRout
 
 const float soldierGap = 60;
 const int soldierHP = 5;
-const float soldierFOV = 300;
+const float soldierFOV = 400;
 const int soldierATK = 1;
-const int soldierAttackRange = 100;
+const int soldierAttackRange = 200;
+const float soldierVelocity = 1.5;
+const float soldierOmega = 1.5;
 const sf::Time soldierAttackInterval = sf::seconds(2);
 
 

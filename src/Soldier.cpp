@@ -2,11 +2,11 @@
 
 using namespace sfGame;
 
-Soldier::Soldier(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval, float FOV, float velocity):
+Soldier::Soldier(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval, float FOV, float velocity, float omega):
     MilitaryUnit(side, sprite, HP)
 {
     moveBehavior = new SoldierMove(velocity);
-    rotateBehavior = new Rotatable(1);
+    rotateBehavior = new Rotatable(omega);
     detectBehavior = new MinDetect(FOV);
     attackBehavior = new Attack(ShellSize::small, ATK, attackRange, attackInterval);
     moveDest = getPos();
@@ -45,24 +45,6 @@ void Soldier::update(sf::Time delta)
 
 bool Soldier::attack(sf::Time delta)
 {
-    // attackClock += delta;
-
-    // if(target == NULL) return false;
-    // if(Battlefield::getDistance(this, target) > attackRange)
-    // {
-    //     moveDest = target->getPos();
-    //     return false;
-    // }
-
-    // if(attackClock > attackInterval)
-    // {
-    //     attackClock = sf::Time::Zero;
-    //     attackBehavior->attack(*this, *target);
-    //     target = NULL;
-    // }
-
-    // moveDest = getPos();
-    // return true;
     return attackBehavior->attack(*this, delta);
 }
 

@@ -12,7 +12,9 @@ extern Battlefield battlefield;
 void PlayerMove::move(MilitaryUnit &unit, sf::Vector2f &destination)
 {
     sf::Sprite& sprite = unit.getSprite();
-    auto currentPos=sprite.getPosition();
+    auto currentPos = sprite.getPosition();
+
+    if(destination == unit.getPos()) return;
 
     if(Battlefield::checkCollision(&unit, destination))
     {
@@ -58,7 +60,7 @@ void SoldierMove::setRoute(const Route &route)
 
 void SoldierMove::updateDest(const MilitaryUnit &unit, sf::Vector2f &destination)
 {
-    if(destination == unit.getPos())
+    if(unit.getTarget() == NULL)
     {
         assert(route.size() != 0);
         for(auto i : route)
@@ -87,7 +89,7 @@ void SoldierMove::updateDest(const MilitaryUnit &unit, sf::Vector2f &destination
 void SoldierMove::move(MilitaryUnit &unit, sf::Vector2f &destination)
 {
     updateDest(unit, destination);
-
+    if(destination == unit.getPos()) return;
     // std::cout<<destination.x<<","<<destination.y<<std::endl;
 
     sf::Sprite& sprite = unit.getSprite();

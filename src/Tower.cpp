@@ -291,48 +291,50 @@ void Nexus::generateSoldiers()
 
 void Nexus::generate()
 {
-    auto soldier = new Soldier(side, midSoldiers[0],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,0.75);
+    auto v = Parameter::soldierVelocity;
+    
+    auto soldier = new Soldier(side, midSoldiers[0],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV, 0.75*v, Parameter::soldierOmega );
     if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(midRoute[0]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, midSoldiers[1],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,0.75);
+    soldier = new Soldier(side, midSoldiers[1],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV, 0.75*v, Parameter::soldierOmega );
     if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(midRoute[1]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, midSoldiers[2],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,0.75);
+    soldier = new Soldier(side, midSoldiers[2],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV, 0.75*v, Parameter::soldierOmega );
     if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(midRoute[2]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, leftSoldiers[0],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,1);
+    soldier = new Soldier(side, leftSoldiers[0],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV, v, Parameter::soldierOmega );
     if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(leftRoute[0]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, leftSoldiers[1],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,1.05);
+    soldier = new Soldier(side, leftSoldiers[1],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV, 1.05*v, Parameter::soldierOmega );
     if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(leftRoute[1]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, leftSoldiers[2],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,0.95);
+    soldier = new Soldier(side, leftSoldiers[2],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV, 0.95*v, Parameter::soldierOmega );
     if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(leftRoute[2]);
     Battlefield::registerUnit(soldier);
 
 
-    soldier = new Soldier(side, rightSoldiers[0],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,1);
+    soldier = new Soldier(side, rightSoldiers[0],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV, v, Parameter::soldierOmega );
     if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(rightRoute[0]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, rightSoldiers[1],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,0.95);
+    soldier = new Soldier(side, rightSoldiers[1],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV, 0.95*v, Parameter::soldierOmega );
     if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(rightRoute[1]);
     Battlefield::registerUnit(soldier);
 
-    soldier = new Soldier(side, rightSoldiers[2],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV,1.05);
+    soldier = new Soldier(side, rightSoldiers[2],Parameter::soldierHP, Parameter::soldierATK, Parameter::soldierAttackRange, Parameter::soldierAttackInterval, Parameter::soldierFOV, 1.05*v, Parameter::soldierOmega );
     if(!soldier) std::cout<<"new error!" <<std::endl;
     soldier->setRoute(rightRoute[2]);
     Battlefield::registerUnit(soldier);

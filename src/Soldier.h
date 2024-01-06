@@ -14,7 +14,7 @@ namespace sfGame
 class Soldier: public MilitaryUnit
 {
     public:
-        Soldier(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval, float FOV, float velocity);
+        Soldier(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval, float FOV, float velocity, float omega);
         ~Soldier();
         void handleInput(sf::RenderWindow &window){}
         void update(sf::Time delta);

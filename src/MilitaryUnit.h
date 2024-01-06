@@ -9,7 +9,7 @@
 #include <cmath>
 #include <memory>
 #include <cstdlib>
-
+#include "Parameters.h"
 
 
 namespace sfGame
@@ -50,6 +50,7 @@ class MilitaryUnit
 
         float getRadius() const;
         int getHP() const;
+        MilitaryUnit* getTarget() const;
         bool isDead() const;
 
         void beingAttacked(int damage);
@@ -62,7 +63,7 @@ class MilitaryUnit
         
         virtual void handleInput(sf::RenderWindow &window) = 0;
         virtual void update(sf::Time delta) = 0;
-        void render(sf::RenderWindow& window);
+        virtual void render(sf::RenderWindow& window);
 
         friend class Attack;
     protected:
@@ -79,10 +80,8 @@ class MilitaryUnit
         Detect *detectBehavior;
         Attack *attackBehavior;
         MilitaryUnit *target;
-        // float attackRange;
-        // sf::Time attackInterval;
 
-        // sf::Time attackClock;
+        sf::RectangleShape HPbar;
         
 
 };

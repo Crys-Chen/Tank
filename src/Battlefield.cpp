@@ -127,10 +127,17 @@ bool Battlefield::checkObstacleCollison(const sf::Sprite &sprite, sf::Vector2f &
 
 bool Battlefield::checkUnitCollison(const MilitaryUnit *unit1, const MilitaryUnit *unit2)
 {
-    if(unit1->getType() == Type::soldier || unit2->getType() == Type::soldier)  //小兵就不算撞了，不然太挤
+    //玩家和小兵可以重叠，不然太挤
+    if(unit1->getType() == Type::player || unit2->getType() == Type::player) 
+    {
+        if(unit1->getType() == soldier || unit2->getType() == Type::soldier)
+            return false;
+    } 
+    //同阵营小兵可以重叠，不然太挤
+    if(unit1->getType() == soldier && unit2->getType() == Type::soldier && unit1->getSide() == unit2->getSide())
         return false;
-    //int index1 = std::find(instance->units.begin(), instance->units.end(), unit1) - instance->units.begin();
-    // int index2 = std::find(instance->units.begin(), instance->units.end(), unit2) - instance->units.begin();
+
+
     auto r1 = unit1->getRadius();
     auto r2 = unit2->getRadius();
     return getDistance(unit1, unit2) < r1 + r2;
@@ -140,7 +147,7 @@ bool Battlefield::checkCollision(MilitaryUnit *unit, sf::Vector2f &collisionObj)
 {
     if(checkObstacleCollison(unit->getSprite(), collisionObj)) 
     {
-        std::cout<<"hit obstacle!"<<std::endl;
+        // std::cout<<"hit obstacle!"<<std::endl;
         return true;
     }
         
@@ -150,7 +157,7 @@ bool Battlefield::checkCollision(MilitaryUnit *unit, sf::Vector2f &collisionObj)
             continue;
         if(checkUnitCollison(unit, i))
         {
-            std::cout<<"hit unit!"<<std::endl;
+            // std::cout<<"hit unit!"<<std::endl;
             collisionObj = i->getSprite().getPosition();
             return true;
         }

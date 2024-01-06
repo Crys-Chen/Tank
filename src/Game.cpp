@@ -10,7 +10,7 @@ const sf::Time Game::TimePerFrame = Parameter::timePerFrame;
 
 // std::shared_ptr<Screen> Game::screen = std::make_shared<GameScreen>();
 // Screen* Game::screen = new GameScreen();
-Screen* Game::screen = new MenuScreen();
+Screen* Game::screen = new GameScreen();
 
 
 Game::Game(): window(sf::VideoMode(Parameter::windowWidth, Parameter::windowHeight), "sfTank"),
@@ -75,6 +75,7 @@ void gameUpdate(Game *game)
 
 void Game::render()
 {
+    
 	window.clear();
 	Game::screen->render(window,view);
     window.setView(view);
@@ -83,32 +84,15 @@ void Game::render()
 
 void Game::run()
 {
-    threadPool.submit(gameUpdate, this);
+    auto future = threadPool.submit(gameUpdate, this);
     while(window.isOpen())
     {
+        std::this_thread::sleep_for(std::chrono::seconds(int(Game::TimePerFrame.asSeconds())));
         handleInput();
         render();
     }
+    future.get();
+    std::cout<<"close"<<std::endl;
     delete Game::screen;
-
-	// }
-
-	// sf::Clock clock;
-	// sf::Time timeSinceLastUpdate = sf::Time::Zero;
-	// std::srand(std::time(NULL));
-
-	// while (window.isOpen())
-	// {
-	// 	sf::Time delta = clock.restart();
-	// 	timeSinceLastUpdate += delta;
-
-	// 	while (timeSinceLastUpdate > Game::TimePerFrame)
-	// 	{
-	// 		timeSinceLastUpdate -= TimePerFrame;
-	// 		handleInput();
-	// 		update(TimePerFrame);
-	// 	}
-
-	// 	render();
-	// }
+    exit(0);
 }

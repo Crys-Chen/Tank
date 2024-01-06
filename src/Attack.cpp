@@ -16,11 +16,9 @@ bool Attack::attack(MilitaryUnit &attacker, sf::Time delta)
 {
     auto target = attacker.target;
     attackClock += delta;
-    // std::cout<<attackClock.asSeconds()<<std::endl;
-    // std::cout<<attackInterval.asSeconds()<<std::endl;
-    // std::cout<<delta.asSeconds()<<std::endl;
 
-    if(target == NULL) return false;
+    if(target == NULL || target->isDead()) return false;
+
     if(Battlefield::getDistance(&attacker, target) > attackRange)
     {
         attacker.moveDest = target->getPos();
@@ -33,10 +31,17 @@ bool Attack::attack(MilitaryUnit &attacker, sf::Time delta)
         attackClock = sf::Time::Zero;
         fire(attacker, *target);
         target = NULL;
+        attacker.moveDest = attacker.getPos();
+        return true;
+    }
+    
+    else
+    {
+        attacker.moveDest = attacker.getPos();
+        return false;
     }
 
-    attacker.moveDest = attacker.getPos();
-    return true;
+
 }
 
 void Attack::fire(const MilitaryUnit &attacker, MilitaryUnit &unit)
