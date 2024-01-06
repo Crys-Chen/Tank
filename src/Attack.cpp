@@ -42,7 +42,7 @@ bool Attack::attack(MilitaryUnit &attacker, sf::Time delta)
 void Attack::fire(const MilitaryUnit &attacker, MilitaryUnit &unit)
 {
     // auto DEF = unit.getDEF();
-    auto shell = new Shell(size, attacker, &unit);
+    auto shell = new Shell(size, attacker, &unit, ATK);
     Battlefield::registerShell(shell);
     
 }

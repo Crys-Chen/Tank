@@ -29,7 +29,7 @@ enum Type
     nexus
 };
 
-class Movable;
+class Move;
 class Rotatable;
 class Detect;
 class Shell;
@@ -39,25 +39,27 @@ class Attack;
 class MilitaryUnit
 {
     public:
-        MilitaryUnit(Side side, sf::Sprite sprite, int HP, int ATK);
+        MilitaryUnit(Side side, sf::Sprite sprite, int HP);
         virtual ~MilitaryUnit() = default;
-        //virtual bool detect(const Units &enemies) = 0;
-        sf::FloatRect getBounds() const;
-        float getRadius() const;
+        // sf::FloatRect getBounds() const;
+        
         sf::Vector2f getPos() const;
         sf::Sprite  getSprite() const;
         sf::Sprite& getSprite();
-        int getHP() const;
-        // float getDEF() const;
-        bool isDead() const;
-        virtual Type getType() const = 0;
         Side getSide() const;
-        int getATK() const;
+
+        float getRadius() const;
+        int getHP() const;
+        bool isDead() const;
+
+        void beingAttacked(int damage);
+        
+        virtual Type getType() const = 0;
         virtual void move() = 0;
         virtual bool detect() = 0;
         virtual bool rotate() = 0;
         virtual bool attack(sf::Time delta) = 0;
-        void beingAttacked(int damage);
+        
         virtual void handleInput(sf::RenderWindow &window) = 0;
         virtual void update(sf::Time delta) = 0;
         void render(sf::RenderWindow& window);
@@ -67,10 +69,10 @@ class MilitaryUnit
         Side side;
         sf::Sprite sprite; //贴图
         int HP; //血量
-        int ATK;
+        // int ATK;
 
         
-        Movable *moveBehavior;
+        Move *moveBehavior;
         sf::Vector2f moveDest;
         Rotatable *rotateBehavior;
         sf::Vector2f rotateDest;

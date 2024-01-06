@@ -4,7 +4,7 @@
 #include <ctime>
 #include <chrono>
 #include "MilitaryUnit.h"
-#include "Movable.h"
+#include "Move.h"
 #include "Rotatable.h"
 #include "Attack.h"
 
@@ -28,7 +28,7 @@ class Player: public MilitaryUnit
 
     private:
         // sf::Vector2f destination;
-        // Movable *moveBehavior;
+        // Move *moveBehavior;
         // Rotatable *rotateBehavior;
 };
 

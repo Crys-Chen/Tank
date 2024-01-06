@@ -4,7 +4,7 @@
 using namespace sfGame;
 
 Player::Player(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval, float FOV):
-    MilitaryUnit(side, sprite, HP, ATK) 
+    MilitaryUnit(side, sprite, HP) 
     {
         // moveDest = sprite.getPosition();
         moveBehavior = new PlayerMove(3);

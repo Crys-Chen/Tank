@@ -7,7 +7,7 @@ extern AssetManager manager;
 
 
 Tower::Tower(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval, float FOV):
-    MilitaryUnit(side, sprite, HP, ATK) 
+    MilitaryUnit(side, sprite, HP) 
 {
     rotateBehavior = new Rotatable(1.5);
     detectBehavior = new LockDetect(FOV);

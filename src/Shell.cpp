@@ -3,7 +3,7 @@
 using namespace sfGame;
 extern AssetManager manager;
 
-Shell::Shell(ShellSize size, const MilitaryUnit &attacker, MilitaryUnit *target)
+Shell::Shell(ShellSize size, const MilitaryUnit &attacker, MilitaryUnit *target, int ATK)
 {
     switch (size)
     {
@@ -24,7 +24,7 @@ Shell::Shell(ShellSize size, const MilitaryUnit &attacker, MilitaryUnit *target)
     }
     sprite.setPosition(attacker.getPos());
 
-    damage = attacker.getATK();
+    damage = ATK;
     hit = false;
     this->target = target;
     // std::cout<<"damage: "<<damage<<std::endl;

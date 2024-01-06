@@ -2,7 +2,7 @@
 #define SOLDIER
 
 #include "MilitaryUnit.h"
-#include "Movable.h"
+#include "Move.h"
 #include "Rotatable.h"
 #include "Detect.h"
 #include "Attack.h"
@@ -26,7 +26,7 @@ class Soldier: public MilitaryUnit
         Type getType() const;
 
     private:
-        // Movable *moveBehavior;
+        // Move *moveBehavior;
         // Rotatable *rotateBehavior;
         // Detect *detectBehavior; 
         // sf::Vector2f destination;

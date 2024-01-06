@@ -3,7 +3,7 @@
 using namespace sfGame;
 
 Soldier::Soldier(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval, float FOV, float velocity):
-    MilitaryUnit(side, sprite, HP, ATK)
+    MilitaryUnit(side, sprite, HP)
 {
     moveBehavior = new SoldierMove(velocity);
     rotateBehavior = new Rotatable(1);

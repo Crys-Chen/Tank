@@ -3,8 +3,8 @@
 
 using namespace sfGame;
 
-MilitaryUnit::MilitaryUnit(Side side, sf::Sprite sprite, int HP, int ATK):
-    side(side), sprite(sprite), HP(HP), ATK(ATK)
+MilitaryUnit::MilitaryUnit(Side side, sf::Sprite sprite, int HP):
+    side(side), sprite(sprite), HP(HP)
 {
     moveBehavior = NULL;
     rotateBehavior = NULL;
@@ -17,10 +17,10 @@ MilitaryUnit::MilitaryUnit(Side side, sf::Sprite sprite, int HP, int ATK):
 }
 
 
-sf::FloatRect MilitaryUnit::getBounds() const
-{
-    return sprite.getGlobalBounds();
-}
+// sf::FloatRect MilitaryUnit::getBounds() const
+// {
+//     return sprite.getGlobalBounds();
+// }
 
 float MilitaryUnit::getRadius() const
 {
@@ -44,10 +44,10 @@ int MilitaryUnit::getHP() const
     return HP;
 }
 
-int MilitaryUnit::getATK() const
-{
-    return ATK;
-}
+// int MilitaryUnit::getATK() const
+// {
+//     return ATK;
+// }
 
 
 bool MilitaryUnit::isDead() const

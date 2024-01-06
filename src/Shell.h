@@ -18,7 +18,7 @@ enum ShellSize
 class Shell
 {
     public:
-        Shell(ShellSize size, const MilitaryUnit &attacker, MilitaryUnit *target);
+        Shell(ShellSize size, const MilitaryUnit &attacker, MilitaryUnit *target, int ATK);
         void update();
         bool isOver();
         bool attack();
