@@ -9,7 +9,6 @@ extern ThreadPool threadPool;
 Battlefield::Battlefield()
 {
     assert(instance==nullptr);
-    // if(instance != nullptr) return;
     instance=this;
     distance.resize(units.size());
     shells.resize(0);
@@ -29,23 +28,23 @@ Battlefield::Battlefield()
 
 Battlefield::~Battlefield()
 {
-    delete instance;
+    std::cout<<"delete!"<<std::endl;
+    instance = nullptr;
+
     for(auto i : units)
+    {
+        if(i->getType() == nexus)
+            continue;
+        
         delete i;
+    }
+        
     for(auto i : shells)
         delete i;
+    
 }
 
-// void Battlefield::setInstance(Battlefield *instance)
-// {
-//     static bool already = false;
-//     if(already == true) return;
-//     if(instance != NULL)
-//     {
-//         Battlefield::instance = instance;
-//         already = true;
-//     }
-// }
+
 
 float Battlefield::calDistance(sf::Vector2f unit1, sf::Vector2f unit2)
 {
@@ -166,10 +165,20 @@ bool Battlefield::checkCollision(MilitaryUnit *unit, sf::Vector2f &collisionObj)
     return false;
 }
 
+bool Battlefield::isOver()
+{
+    return instance->gameOver;
+}
 
+Side Battlefield::getWinner()
+{
+    return instance->winner;
+}
 
 void Battlefield::update(sf::Time delta)
 {
+    if(isOver()) return;
+
     instance->distance.clear();
     auto size = instance->units.size();
     instance->distance.resize(size);
@@ -184,38 +193,44 @@ void Battlefield::update(sf::Time delta)
         }
     }
 
+    std::vector<std::future<void>> unitFut;
+    std::vector<std::future<void>> shellFut;
+
     for(auto unit: instance->units)
     {
-        if(unit->isDead()) continue;
-        threadPool.submit([=]{unit->update(delta);});
-        // threadPool.submit(unitUpdate,unit,delta);
+        if(unit->isDead())
+        {
+            if(unit->getType() == Type::nexus)
+            {
+                instance->gameOver = true;
+                if(unit->getSide() == Blue)
+                    instance->winner = Side::Red;
+                else
+                    instance->winner = Side::Blue;
+            }
+            continue;
+        }
+        unitFut.push_back(threadPool.submit([=]{unit->update(delta);}));
+       
     }
 
     for(auto shell: instance->shells)
     {
         if(shell->isOver()) continue;
-        threadPool.submit([=]{shell->update();});
-        // threadPool.submit(shellUpdate,shell);
-        // shellUpdate(shell);
+        shellFut.push_back(threadPool.submit([=]{shell->update();}));
     }
     
 
     // ThreadPool pool(10);
 
-    // for(size_t i = 0; i < instance->units.size(); i++)
-    // {
-    //     auto unit = instance->units[i];
-    //     if(unit->isDead()) continue;
-    //     // unitsFut.push_back(threadPool.submit(unitUpdate, unit, delta));
-    //     unitUpdate(unit, delta);
-    //     // if(unit->isDead())
-    //     // {
-    //         // instance->units.erase(Units::iterator(&instance->units[i]));
-    //         // i--;
-    //         // if(unit != NULL && unit->getType() != Type::player)
-    //         //     delete unit;
-    //     // }
-    // }
+    for(size_t i = 0; i < unitFut.size(); i++)
+    {
+        unitFut[i].get();
+    }
+    for(size_t i = 0; i < shellFut.size(); i++)
+    {
+        shellFut[i].get();
+    }
 
     // for(size_t i = 0; i < instance->shells.size(); i++)
     // {

@@ -8,7 +8,7 @@ extern AssetManager manager;
 // extern Battlefield battlefield;
 extern ThreadPool threadPool;
 
-Player* GameScreen::player = NULL;
+// Player* GameScreen::player = NULL;
 // sf::Clock GameScreen::clock;
 
 const std::vector<sf::Vector2f> blueTowersPos = Parameter::blueTowersPos;
@@ -18,9 +18,8 @@ const std::vector<sf::Vector2f> redTowersPos = Parameter::redTowersPos;
 GameScreen::GameScreen(): 
     backGround()
 {
-    new Battlefield();
-    assert(player == NULL);
-    std::cout<<"here!"<<std::endl;
+    battlefield = std::make_shared<Battlefield>();
+    // assert(player == NULL);
     Nexus *blueNexus = NULL, *redNexus = NULL;
     sf::Sprite blueTowerSprite[5], redTowerSprite[5];
     sf::Sprite blueSoldierSprite[3], redSoldierSprite[3];
@@ -58,8 +57,8 @@ GameScreen::GameScreen():
     player = new Player(Side::Blue, playerSprite, Parameter::playerHP, Parameter::playerATK, Parameter::playerAttackRange, Parameter::playerAttackInterval, Parameter::playerVelocity, Parameter::playerOmega);
     Battlefield::registerUnit(player);
 
-    threadPool.submit([=]{blueNexus->generateSoldiers();});
-    threadPool.submit([=]{redNexus->generateSoldiers();});
+    // gen[0] = threadPool.submit([=]{blueNexus->generateSoldiers();});
+    // gen[1] = threadPool.submit([=]{redNexus->generateSoldiers();});
 
 
 
@@ -69,30 +68,38 @@ GameScreen::GameScreen():
 
 }
 
-
+GameScreen::~GameScreen()
+{
+    // gen[0].get();
+    // gen[1].get();
+}
 
 void GameScreen::handleInput(sf::RenderWindow& window)
 {
 	player->handleInput(window);
 }
 
-void refresh(Player *player)
-{
-    player->refresh();
-}
-
 void GameScreen::update(sf::Time delta) 
 {
+    if(Battlefield::isOver())
+    {
+        Game::screen = std::make_shared<GameOverScreen>();
+        return;
+    }
+
     static bool playerRefresh = false;
 
     Battlefield::update(delta);
     if(player->isDead())
     {
         if(playerRefresh == false)
-            threadPool.submit(refresh,player);
+            threadPool.submit([=]{player->refresh();});
         playerRefresh = true;
     }
     else playerRefresh = false;
+
+
+
     
         
 }

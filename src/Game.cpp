@@ -8,9 +8,9 @@ ThreadPool threadPool(30);
 
 const sf::Time Game::TimePerFrame = Parameter::timePerFrame;
 
-// std::shared_ptr<Screen> Game::screen = std::make_shared<GameScreen>();
+std::shared_ptr<Screen> Game::screen = std::make_shared<MenuScreen>();
 // Screen* Game::screen = new GameScreen();
-Screen* Game::screen = new GameScreen();
+// Screen* Game::screen = new MenuScreen();
 
 
 Game::Game(): window(sf::VideoMode(Parameter::windowWidth, Parameter::windowHeight), "sfTank"),
@@ -26,7 +26,7 @@ view(sf::FloatRect(0.f, 0.f, Parameter::windowWidth, Parameter::windowHeight))
 Game::~Game()
 {
     threadPool.shutdown();
-    delete screen;
+    // delete screen;
 }
 
 sf::Vector2i Game::windowPos()
@@ -81,6 +81,6 @@ void Game::run()
     }
     future.get();
     std::cout<<"close"<<std::endl;
-    delete Game::screen;
+    // delete Game::screen;
     exit(0);
 }

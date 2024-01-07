@@ -34,9 +34,7 @@ class Nexus: public Tower
         Nexus(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval, float FOV);
         ~Nexus();
         Type getType() const;
-        // void update(sf::Time delta)
         void move(){}
-        // void handleInput(sf::RenderWindow &window){}
         void generateSoldiers();
         
     private:

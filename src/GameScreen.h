@@ -13,6 +13,8 @@
 #include "Player.h"
 #include "Tower.h"
 #include "Soldier.h"
+#include "Game.h"
+#include "GameOverScreen.h"
 
 namespace sfGame
 {
@@ -21,7 +23,7 @@ class GameScreen : public Screen
 {
     public:
         GameScreen();
-        ~GameScreen() = default;
+        ~GameScreen();
 
         void handleInput(sf::RenderWindow& window) override;
         void update(sf::Time delta) override;
@@ -29,7 +31,9 @@ class GameScreen : public Screen
 
     private:
         BackGround backGround;
-        static Player *player;
+        Player *player;
+        std::shared_ptr<Battlefield> battlefield;
+        std::future<void> gen[2];
 
        
 	

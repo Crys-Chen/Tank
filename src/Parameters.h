@@ -19,11 +19,11 @@ const sf::Vector2f HPbarDelta = sf::Vector2f(0,-20);
 
 
 //player
-const int playerATK = 2;
-const int playerHP = 10;
+const int playerATK = 10;
+const int playerHP = 100;
 const int playerAttackRange = 300;
 const float playerOmega = 2;
-const float playerVelocity = 2; 
+const float playerVelocity = 10; 
 const sf::Time playerAttackInterval = sf::seconds(1);
 const int refreshGap = 5;
 

@@ -37,8 +37,9 @@ void Player::handleInput(sf::RenderWindow &window)
 
         for(auto unit: Battlefield::getUnits())
         {
-            if(unit->getSide() == side || unit->isDead()) 
-                continue;
+            if(unit->isDead()) continue;
+            // if(unit->getSide() == side || unit->isDead()) 
+            //     continue;
             auto x = absPos.x - unit->getPos().x;
             auto y = absPos.y - unit->getPos().y;
             auto distance = sqrt(x*x + y*y);

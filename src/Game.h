@@ -34,8 +34,8 @@ public:
 	void render();
 	sf::Vector2i windowPos(); 
 
-	// static std::shared_ptr<Screen> Screen;
-    static Screen *screen;
+	static std::shared_ptr<Screen> screen;
+    // static Screen *screen;
 
 private:
 	sf::RenderWindow window;

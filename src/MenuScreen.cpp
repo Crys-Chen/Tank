@@ -32,11 +32,9 @@ void MenuScreen::handleInput(sf::RenderWindow& window)
         else if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			auto mousePos=sf::Mouse::getPosition(window); //根据sfml官网，获得当前鼠标位置
-            std::cout << mousePos.x << "," << mousePos.y << std::endl;
             if(play.inButton(mousePos))
             {
-                std::cout<<"play!"<<std::endl;
-                Game::screen = new GameScreen();
+                Game::screen = std::make_shared<GameScreen>();
             }
             else if(exit.inButton(mousePos))
             {
@@ -48,6 +46,7 @@ void MenuScreen::handleInput(sf::RenderWindow& window)
             }
             
 		}
+
 	}
 }
 

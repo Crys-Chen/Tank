@@ -263,6 +263,7 @@ Nexus::~Nexus()
 {
     delete rotateBehavior;
     delete detectBehavior;
+    delete attackBehavior;
 }
 
 Type Nexus::getType() const
@@ -275,7 +276,7 @@ void Nexus::generateSoldiers()
     generate();
     sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
-    while(!isDead())
+    while(!Battlefield::isOver())
     {
         sf::Time delta = clock.restart();
 		timeSinceLastUpdate += delta;
@@ -284,7 +285,6 @@ void Nexus::generateSoldiers()
 			timeSinceLastUpdate = sf::Time::Zero;
             generate();
 		}
-
     }
 }
 
