@@ -14,11 +14,6 @@ Player* GameScreen::player = NULL;
 const std::vector<sf::Vector2f> blueTowersPos = Parameter::blueTowersPos;
 const std::vector<sf::Vector2f> redTowersPos = Parameter::redTowersPos;
 
-void generateSoldiers(Nexus *nexus)
-{
-    nexus->generateSoldiers();
-}
-
 
 GameScreen::GameScreen(): 
     backGround()
@@ -63,8 +58,9 @@ GameScreen::GameScreen():
     player = new Player(Side::Blue, playerSprite, Parameter::playerHP, Parameter::playerATK, Parameter::playerAttackRange, Parameter::playerAttackInterval, Parameter::playerVelocity, Parameter::playerOmega);
     Battlefield::registerUnit(player);
 
-    threadPool.submit(generateSoldiers, blueNexus);
-    threadPool.submit(generateSoldiers, redNexus);
+    threadPool.submit([=]{blueNexus->generateSoldiers();});
+    threadPool.submit([=]{redNexus->generateSoldiers();});
+
 
 
 

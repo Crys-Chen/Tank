@@ -166,26 +166,18 @@ bool Battlefield::checkCollision(MilitaryUnit *unit, sf::Vector2f &collisionObj)
     return false;
 }
 
-void unitUpdate(MilitaryUnit *unit, sf::Time delta)
-{
-    unit->update(delta);
-}
-
-void shellUpdate(Shell *shell)
-{
-    shell->update();
-}
 
 
 void Battlefield::update(sf::Time delta)
 {
     instance->distance.clear();
-    instance->distance.resize(instance->units.size());
-    for(size_t i = 0; i < instance->units.size(); i++)
+    auto size = instance->units.size();
+    instance->distance.resize(size);
+    for(size_t i = 0; i < size; i++)
     {
         if(instance->units[i]->isDead()) continue;
-        instance->distance[i].resize(instance->units.size());
-        for(size_t j = 0; j < instance->units.size(); j++)
+        instance->distance[i].resize(size);
+        for(size_t j = 0; j < size; j++)
         {
             if(instance->units[j]->isDead()) continue;
             instance->distance[i][j] = calDistance(instance->units[i]->getPos(), instance->units[j]->getPos());
@@ -195,13 +187,15 @@ void Battlefield::update(sf::Time delta)
     for(auto unit: instance->units)
     {
         if(unit->isDead()) continue;
-        threadPool.submit(unitUpdate,unit,delta);
+        threadPool.submit([=]{unit->update(delta);});
+        // threadPool.submit(unitUpdate,unit,delta);
     }
 
     for(auto shell: instance->shells)
     {
         if(shell->isOver()) continue;
-        threadPool.submit(shellUpdate,shell);
+        threadPool.submit([=]{shell->update();});
+        // threadPool.submit(shellUpdate,shell);
         // shellUpdate(shell);
     }
     

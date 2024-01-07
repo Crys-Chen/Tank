@@ -14,7 +14,7 @@ bool LockDetect::detect(MilitaryUnit *self, MilitaryUnit *&target)
 {
     auto units = Battlefield::getUnits();
 
-    if((target != NULL) && (Battlefield::getDistance(self, target) < FOV)) //目标还在视野范围内
+    if((target != NULL) && (!target->isDead()) && (Battlefield::getDistance(self, target) < FOV)) //目标还在视野范围内
         return true;
     
     Units enemiesInVision;
@@ -44,7 +44,7 @@ bool LockDetect::detect(MilitaryUnit *self, MilitaryUnit *&target)
             std::uniform_int_distribution<int> distribution(0, enemiesInVision.size()-1); //int随机数范围是闭区间，最后得-1
             target = enemiesInVision[distribution(random)];
             
-        }while(target->getType() != Type::player);
+        }while(target->getType() != Type::player && !target->isDead());
     }
 
     return true;
