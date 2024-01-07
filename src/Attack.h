@@ -15,11 +15,11 @@ class Attack
         void fire(const MilitaryUnit &attacker, MilitaryUnit &unit);
 
     private:
-        ShellSize size;
-        float ATK;
-        float attackRange;
-        sf::Time attackInterval;
-        sf::Time attackClock;
+        ShellSize size; //炮弹类型
+        float ATK; //攻击力
+        float attackRange; //攻击距离
+        sf::Time attackInterval; //攻击间隔（攻速）
+        sf::Time attackClock; //用于判断是否满足攻击间隔
 
 };
 

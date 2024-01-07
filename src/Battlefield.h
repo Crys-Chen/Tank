@@ -17,6 +17,7 @@ namespace sfGame
 {
 // class MilitaryUnit;
 // typedef std::vector<MilitaryUnit*> Units;
+
 typedef std::vector<std::vector<float>> Distance;
 
 

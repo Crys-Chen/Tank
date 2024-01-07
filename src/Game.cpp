@@ -37,14 +37,7 @@ sf::Vector2i Game::windowPos()
 
 void Game::handleInput()
 {
-	// sf::Event event;
-
-	// while (window.pollEvent(event))
-	// {
-	// 	if (event.type == sf::Event::Closed)
-	// 		window.close();
-	// }
-	//为支持多样的输入处理，必须把event放到各个screen的handleinput中poll
+	//为支持多样的输入处理，必须代理给具体screen的handleinput实现
 	Game::screen->handleInput(window);
 }
 
@@ -75,7 +68,6 @@ void gameUpdate(Game *game)
 
 void Game::render()
 {
-    
 	window.clear();
 	Game::screen->render(window,view);
     window.setView(view);

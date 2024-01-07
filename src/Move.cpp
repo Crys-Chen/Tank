@@ -98,7 +98,7 @@ void SoldierMove::move(MilitaryUnit &unit, sf::Vector2f &destination)
     if(Battlefield::checkCollision(&unit, destination))
     {
         float length=sqrt((destination.x-currentPos.x)*(destination.x-currentPos.x)
-                    +(destination.y-currentPos.y)*(destination.y-currentPos.y));//必须先把double转成float
+                    +(destination.y-currentPos.y)*(destination.y-currentPos.y));
         if(length == 0) return;
         auto direction = sf::Vector2f(destination.x-currentPos.x , destination.y-currentPos.y) / length;
         auto xOffset = direction.x*velocity;

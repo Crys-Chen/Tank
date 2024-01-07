@@ -38,15 +38,15 @@ class Nexus: public Tower
         void move(){}
         // void handleInput(sf::RenderWindow &window){}
         void generateSoldiers();
-        void generate();
+        
     private:
-        // sf::Time generateInterval;
         sf::Sprite midSoldiers[3];
         sf::Sprite leftSoldiers[3];
         sf::Sprite rightSoldiers[3];
         Route midRoute[3];
         Route leftRoute[3];
         Route rightRoute[3]; 
+        void generate();
         
 };
 

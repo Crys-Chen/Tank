@@ -1,6 +1,7 @@
 #include "Soldier.h"
 
 using namespace sfGame;
+extern ThreadPool threadPool;
 
 Soldier::Soldier(Side side, sf::Sprite sprite, int HP, int ATK, float attackRange, sf::Time attackInterval, float FOV, float velocity, float omega):
     MilitaryUnit(side, sprite, HP)
@@ -32,10 +33,13 @@ void Soldier::setRoute(const Route &route)
     moveBehavior->setRoute(route);
 }
 
+
+
 void Soldier::update(sf::Time delta)
 {
     if(isDead()) return;
     detect();
+    // threadPool.submit(soldierDetect, this);
     if(!rotate())
     {
         if(!attack(delta))

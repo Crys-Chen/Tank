@@ -17,12 +17,6 @@ class Rotate
         float omega;
 };
 
-// class PlayerRotate: public Rotate
-// {
-//     public:
-//         PlayerRotate(float omega): Rotate(omega) {}
-//         bool rotate(sf::Sprite &sprite, const sf::Vector2f &destination);
-// };
 
 }
 

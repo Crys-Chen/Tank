@@ -75,8 +75,8 @@ bool MinDetect::detect(MilitaryUnit *self, MilitaryUnit *&target)
         target = NULL;
         return false;
     }
-        
-
+    
     target = enemiesInVision.top().target;
     return true;
 }
+

@@ -2,6 +2,7 @@
 #define SOLDIER
 
 #include "MilitaryUnit.h"
+#include "ThreadPool.h"
 #include "Move.h"
 #include "Rotate.h"
 #include "Detect.h"
