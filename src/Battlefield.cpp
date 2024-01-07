@@ -28,14 +28,12 @@ Battlefield::Battlefield()
 
 Battlefield::~Battlefield()
 {
-    std::cout<<"delete!"<<std::endl;
     instance = nullptr;
 
     for(auto i : units)
     {
         if(i->getType() == nexus)
             continue;
-        
         delete i;
     }
         
@@ -221,8 +219,6 @@ void Battlefield::update(sf::Time delta)
     }
     
 
-    // ThreadPool pool(10);
-
     for(size_t i = 0; i < unitFut.size(); i++)
     {
         unitFut[i].get();
@@ -231,57 +227,6 @@ void Battlefield::update(sf::Time delta)
     {
         shellFut[i].get();
     }
-
-    // for(size_t i = 0; i < instance->shells.size(); i++)
-    // {
-    //     auto shell = instance->shells[i];
-    //     if(shell->isOver()) continue;
-    //     // shellsFut.push_back(threadPool.submit(shellUpdate, shell));
-    //     shellUpdate(shell);
-    //     // if(shell->isOver())
-    //     // {
-    //     //     instance->shells.erase(Shells::iterator(&instance->shells[i]));
-    //     //     i--;
-    //     //     if(shell != NULL)
-    //     //         delete shell;
-    //     // }
-    // }
-    // for(auto shell: instance->shells)
-    // {
-    //     if(shell->isOver())
-    //     {
-    //         removeShell(shell);
-    //         delete shell;
-    //     }
-    // }
-
-    // for(size_t i = 0; i < instance->shells.size(); i++)
-    // {
-    //     auto shell = instance->shells[i];
-    //     shellsFut[i].get();
-    //     if(shell->isOver())
-    //     {
-    //         removeShell(shell);
-    //         delete shell;
-    //     }
-    // }
-
-    // for (auto unit : instance->units)
-    // for(size_t i = 0; i < instance->units.size(); i++)
-    // {
-    //     auto unit = instance->units[i];
-    //     unitsFut[i].get();
-    //     if(unit->isDead())
-    //     {
-    //         removeUnit(unit);
-    //         // auto isPlayer = dynamic_cast<Player*>(unit);
-    //         // if(isPlayer == NULL) //除了玩家以外都是一次性耗材，直接delete掉。
-    //         //     delete unit;
-    //         if(unit->getType() != Type::player)
-    //             delete unit;
-    //     }
-    // }
-
 }
 
 
@@ -301,27 +246,6 @@ void Battlefield::registerShell(Shell* shell)
 }
 
 
-
-// void Battlefield::removeUnit(MilitaryUnit* unit)
-// {
-//     assert(unit != NULL);
-//     // for(auto i = instance->units.begin(); i != instance->units.end(); i++)
-//     // {
-//     //     if(*i == unit)
-//     auto i = std::find(instance->units.begin(), instance->units.end(), unit);
-//     instance->units.erase(i);
-//     // }
-// }
-
-// void Battlefield::removeShell(Shell* shell)
-// {
-//     assert(shell != NULL);
-//     for(auto i = instance->shells.begin(); i != instance->shells.end(); i++)
-//     {
-//         if(*i == shell)
-//             instance->shells.erase(i);
-//     }
-// }
 
 Units& Battlefield::getUnits()
 {

@@ -20,7 +20,6 @@ GameOverScreen::GameOverScreen()
 	text.setOrigin(textBounds.left + textBounds.width / 2,
 		textBounds.top + textBounds.height / 2);
 	text.setPosition(Parameter::windowWidth / 2, Parameter::windowHeight / 2);
-    std::cout<<winner<<std::endl;
 }
 
 void GameOverScreen::handleInput(sf::RenderWindow& window)
@@ -45,6 +44,6 @@ void GameOverScreen::update(sf::Time delta)
 
 void GameOverScreen::render(sf::RenderWindow& window, sf::View &view)
 {
-	// if(break_record_==true) window.draw(break_record_text);
+	view.setCenter(Parameter::windowWidth/2, Parameter::windowHeight/2);
 	window.draw(text);
 }

@@ -57,21 +57,15 @@ GameScreen::GameScreen():
     player = new Player(Side::Blue, playerSprite, Parameter::playerHP, Parameter::playerATK, Parameter::playerAttackRange, Parameter::playerAttackInterval, Parameter::playerVelocity, Parameter::playerOmega);
     Battlefield::registerUnit(player);
 
-    // gen[0] = threadPool.submit([=]{blueNexus->generateSoldiers();});
-    // gen[1] = threadPool.submit([=]{redNexus->generateSoldiers();});
-
-
-
-
-
-
+    gen[0] = threadPool.submit([=]{blueNexus->generateSoldiers();});
+    gen[1] = threadPool.submit([=]{redNexus->generateSoldiers();});
 
 }
 
 GameScreen::~GameScreen()
 {
-    // gen[0].get();
-    // gen[1].get();
+    gen[0].get();
+    gen[1].get();
 }
 
 void GameScreen::handleInput(sf::RenderWindow& window)

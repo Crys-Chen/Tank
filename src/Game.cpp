@@ -79,8 +79,5 @@ void Game::run()
         handleInput();
         render();
     }
-    future.get();
-    std::cout<<"close"<<std::endl;
-    // delete Game::screen;
-    exit(0);
+
 }
