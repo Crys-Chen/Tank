@@ -34,7 +34,11 @@ void MenuScreen::handleInput(sf::RenderWindow& window)
 			auto mousePos=sf::Mouse::getPosition(window); //根据sfml官网，获得当前鼠标位置
             if(play.inButton(mousePos))
             {
-                Game::screen = std::make_shared<GameScreen>();
+                // Game::screen = std::make_shared<GameScreen>();
+                Game::gameScreen = new GameScreen();
+                Game::gameScreen->initial();
+                Game::screen = Game::gameScreen;
+                
             }
             else if(exit.inButton(mousePos))
             {

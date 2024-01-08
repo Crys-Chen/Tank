@@ -15,12 +15,16 @@
 #include "Parameters.h"
 #include "Screen.h"
 #include "MenuScreen.h"
-#include "GameScreen.h"
+// #include "GameScreen.h"
+// #include "GameOverScreen.h"
 #include "AssetManager.h"
 #include "Battlefield.h"
 
 namespace sfGame
 {
+class MenuScreen;
+class GameScreen;
+class GameOverScreen;
 class Game
 {
 public:
@@ -34,13 +38,17 @@ public:
 	void render();
 	sf::Vector2i windowPos(); 
 
-	static std::shared_ptr<Screen> screen;
-    // static Screen *screen;
+	// static std::shared_ptr<Screen> screen;
+    static Screen *screen;
+    static MenuScreen *menuScreen;
+    static GameScreen *gameScreen;
+    static GameOverScreen *gameOverScreen;
 
 private:
 	sf::RenderWindow window;
 	sf::Music bgMusic;
     sf::View view;
+
 
 	static const sf::Time TimePerFrame;
 };

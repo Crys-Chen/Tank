@@ -16,6 +16,7 @@ class GameOverScreen : public Screen
         GameOverScreen();
         ~GameOverScreen() = default;
 
+        void initial();
         void handleInput(sf::RenderWindow& window) override;
         void update(sf::Time delta) override;
         void render(sf::RenderWindow& window, sf::View &view) override;

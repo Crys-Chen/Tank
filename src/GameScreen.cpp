@@ -18,7 +18,21 @@ const std::vector<sf::Vector2f> redTowersPos = Parameter::redTowersPos;
 GameScreen::GameScreen(): 
     backGround()
 {
-    battlefield = std::make_shared<Battlefield>();
+
+
+}
+
+GameScreen::~GameScreen()
+{
+    gen[0].get();
+    gen[1].get();
+}
+
+void GameScreen::initial()
+{
+    battlefield = new Battlefield();
+    // battlefield = NULL;
+    // battlefield = std::make_shared<Battlefield>();
     // assert(player == NULL);
     Nexus *blueNexus = NULL, *redNexus = NULL;
     sf::Sprite blueTowerSprite[5], redTowerSprite[5];
@@ -59,14 +73,9 @@ GameScreen::GameScreen():
 
     gen[0] = threadPool.submit([=]{blueNexus->generateSoldiers();});
     gen[1] = threadPool.submit([=]{redNexus->generateSoldiers();});
-
 }
 
-GameScreen::~GameScreen()
-{
-    gen[0].get();
-    gen[1].get();
-}
+
 
 void GameScreen::handleInput(sf::RenderWindow& window)
 {
@@ -77,7 +86,11 @@ void GameScreen::update(sf::Time delta)
 {
     if(Battlefield::isOver())
     {
-        Game::screen = std::make_shared<GameOverScreen>();
+        // Game::screen = std::make_shared<GameOverScreen>();
+        delete battlefield;
+        Game::gameOverScreen = new GameOverScreen();
+        Game::gameOverScreen->initial();
+        Game::screen = Game::gameOverScreen;
         return;
     }
 

@@ -59,7 +59,6 @@ bool Tower::rotate()
 
 bool Tower::attack(sf::Time delta)
 {
-
     return attackBehavior->attack(*this, delta);
 }
 
@@ -270,6 +269,26 @@ Type Nexus::getType() const
 {
     return Type::nexus;
 }
+
+// void Nexus::update(sf::Time delta)
+// {
+//     if(isDead()) return;
+//     if(detect())
+//     {
+//         if(!rotate()) //转完了再攻击
+//             attack(delta);
+//     }
+        
+//     else//归位
+//     {
+//         if(side == Side::Blue)
+//             rotateDest = getPos() + sf::Vector2f(0, 100);
+//         else
+//             rotateDest = getPos() - sf::Vector2f(0, 100);
+//         rotate();
+//     }
+        
+// }
 
 void Nexus::generateSoldiers()
 {

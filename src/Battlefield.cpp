@@ -29,7 +29,7 @@ Battlefield::Battlefield()
 Battlefield::~Battlefield()
 {
     instance = nullptr;
-
+    std::cout<<"delete!"<<std::endl;
     for(auto i : units)
     {
         if(i->getType() == nexus)

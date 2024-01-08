@@ -4,7 +4,12 @@ using namespace sfGame;
 
 GameOverScreen::GameOverScreen()
 {
-	font=AssetManager::getFont("Fonts/game.ttf");
+
+}
+
+void GameOverScreen::initial()
+{
+    font=AssetManager::getFont("Fonts/game.ttf");
 	text.setFont(font);
     // text.setString("Game over ! ! ! " );
     std::string winner = Battlefield::getWinner() == Side::Blue? "Blue" : "Red";
@@ -22,6 +27,7 @@ GameOverScreen::GameOverScreen()
 	text.setPosition(Parameter::windowWidth / 2, Parameter::windowHeight / 2);
 }
 
+
 void GameOverScreen::handleInput(sf::RenderWindow& window)
 {
 	sf::Event event;
@@ -30,7 +36,10 @@ void GameOverScreen::handleInput(sf::RenderWindow& window)
 		if(event.type==sf::Event::Closed) window.close();
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
-			Game::screen = std::make_shared<MenuScreen>();
+			// Game::screen = std::make_shared<MenuScreen>();
+            Game::menuScreen->initial();
+            Game::screen = Game::menuScreen;
+
 		}
 	    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			window.close();

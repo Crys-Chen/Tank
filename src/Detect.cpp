@@ -12,10 +12,12 @@ LockDetect::LockDetect(float FOV):
 
 bool LockDetect::detect(MilitaryUnit *self, MilitaryUnit *&target)
 {
-    auto units = Battlefield::getUnits();
+    Units& units = Battlefield::getUnits();
+
 
     if((target != NULL) && (!target->isDead()) && (Battlefield::getDistance(self, target) < FOV)) //目标还在视野范围内
         return true;
+
     
     Units enemiesInVision;
     enemiesInVision.clear();
@@ -29,22 +31,20 @@ bool LockDetect::detect(MilitaryUnit *self, MilitaryUnit *&target)
             enemiesInVision.push_back(i);
     }
 
+
     if(enemiesInVision.empty()) 
     {
         target = NULL;
         return false;
     }
-        
-    if(enemiesInVision.size() == 1)
+    else if(enemiesInVision.size() == 1)
         target = enemiesInVision[0];
     else
     {
-        do
-        {
-            std::uniform_int_distribution<int> distribution(0, enemiesInVision.size()-1); //int随机数范围是闭区间，最后得-1
-            target = enemiesInVision[distribution(random)];
+
+        std::uniform_int_distribution<int> distribution(0, enemiesInVision.size()-1); //int随机数范围是闭区间，最后得-1
+        target = enemiesInVision[distribution(random)];
             
-        }while(target->getType() != Type::player && !target->isDead());
     }
 
     return true;

@@ -8,15 +8,25 @@ ThreadPool threadPool(30);
 
 const sf::Time Game::TimePerFrame = Parameter::timePerFrame;
 
-std::shared_ptr<Screen> Game::screen = std::make_shared<MenuScreen>();
+// std::shared_ptr<Screen> Game::screen = std::make_shared<MenuScreen>();
 // Screen* Game::screen = new GameScreen();
-// Screen* Game::screen = new MenuScreen();
+Screen* Game::screen = NULL;
+MenuScreen* Game::menuScreen = NULL;
+GameScreen* Game::gameScreen = NULL;
+GameOverScreen* Game::gameOverScreen = NULL;
 
 
 Game::Game(): window(sf::VideoMode(Parameter::windowWidth, Parameter::windowHeight), "sfTank"),
-view(sf::FloatRect(0.f, 0.f, Parameter::windowWidth, Parameter::windowHeight))
+    view(sf::FloatRect(0.f, 0.f, Parameter::windowWidth, Parameter::windowHeight))
 {
     threadPool.init();
+
+    menuScreen = new MenuScreen();
+    // gameScreen = new GameScreen();
+    // gameOverScreen = new GameOverScreen();
+    // menuScreen->initial();
+    screen = menuScreen;
+    
 	// bgMusic.openFromFile("Music/bg_music.wav");
 	// bgMusic.setLoop(true);
 	// bgMusic.play();
@@ -26,6 +36,9 @@ view(sf::FloatRect(0.f, 0.f, Parameter::windowWidth, Parameter::windowHeight))
 Game::~Game()
 {
     threadPool.shutdown();
+    delete menuScreen;
+    delete gameScreen;
+    delete gameOverScreen;
     // delete screen;
 }
 
