@@ -56,9 +56,9 @@ class Battlefield
     private:
         Distance distance;
         Units units;
-        Units deadUnits;
+        // Units deadUnits;
         Shells shells;
-        Shells overShells;
+        // Shells overShells;
 
         static Battlefield *instance;
         

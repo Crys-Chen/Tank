@@ -8,14 +8,14 @@ extern ThreadPool threadPool;
 
 Battlefield::Battlefield()
 {
-    assert(instance==nullptr);
+    // assert(instance==nullptr);
     instance=this;
     distance.resize(units.size());
     shells.resize(0);
     units.resize(0);
     shells.resize(0);
-    overShells.resize(0);
-    deadUnits.resize(0);
+    // overShells.resize(0);
+    // deadUnits.resize(0);
 
     gameOver = false;
     for(size_t i = 0; i < units.size(); i++)
@@ -28,17 +28,22 @@ Battlefield::Battlefield()
 
 Battlefield::~Battlefield()
 {
+    
+    // std::cout<<"delete!"<<std::endl;
+    // std::this_thread::sleep_for(std::chrono::seconds(2));
+    // // for(auto i : units)
+    // // {
+    // //     std::cout<<i->getType()<<std::endl;
+    // //     if(i->getType() == nexus)
+    // //         continue;
+    // //     delete i;
+    // // }
+    
+    // std::cout<<"finish deleting units!"<<std::endl;
+    // for(auto i : shells)
+    //     delete i;
+
     instance = nullptr;
-    std::cout<<"delete!"<<std::endl;
-    for(auto i : units)
-    {
-        if(i->getType() == nexus)
-            continue;
-        delete i;
-    }
-        
-    for(auto i : shells)
-        delete i;
     
 }
 

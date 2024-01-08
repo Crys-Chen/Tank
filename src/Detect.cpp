@@ -12,6 +12,7 @@ LockDetect::LockDetect(float FOV):
 
 bool LockDetect::detect(MilitaryUnit *self, MilitaryUnit *&target)
 {
+    if(self->isDead()) return false;
     Units& units = Battlefield::getUnits();
 
 

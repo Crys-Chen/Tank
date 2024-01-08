@@ -85,7 +85,7 @@ void Game::render()
 
 void Game::run()
 {
-    auto future = threadPool.submit([=]{update();});
+    threadPool.submit([=]{update();});
     while(window.isOpen())
     {
         std::this_thread::sleep_for(std::chrono::seconds(int(Game::TimePerFrame.asSeconds())));

@@ -84,19 +84,24 @@ void GameScreen::handleInput(sf::RenderWindow& window)
 
 void GameScreen::update(sf::Time delta) 
 {
+
+
+    static bool playerRefresh = false;
+
+    Battlefield::update(delta);
+
     if(Battlefield::isOver())
     {
         // Game::screen = std::make_shared<GameOverScreen>();
-        delete battlefield;
+        // delete battlefield;
+        if(Game::gameOverScreen != NULL)
+            delete Game::gameOverScreen;
         Game::gameOverScreen = new GameOverScreen();
         Game::gameOverScreen->initial();
         Game::screen = Game::gameOverScreen;
         return;
     }
 
-    static bool playerRefresh = false;
-
-    Battlefield::update(delta);
     if(player->isDead())
     {
         if(playerRefresh == false)
