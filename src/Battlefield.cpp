@@ -28,20 +28,10 @@ Battlefield::Battlefield()
 
 Battlefield::~Battlefield()
 {
-    
-    // std::cout<<"delete!"<<std::endl;
     // for(auto i : units)
-    // {
-    //     // std::cout<<i->getType()<<std::endl;
-    //     // if(i->getType() == nexus)
-    //     //     continue;
     //     delete i;
-    // }
-    
-    // // std::cout<<"finish deleting units!"<<std::endl;
     // for(auto i : shells)
     //     delete i;
-
     instance = nullptr;
     
 }
@@ -195,8 +185,8 @@ void Battlefield::update(sf::Time delta)
         }
     }
 
-    std::vector<std::future<void>> unitFut;
-    std::vector<std::future<void>> shellFut;
+    std::vector<std::future<void>> unitFuture;
+    std::vector<std::future<void>> shellFuture;
 
     for(auto unit: instance->units)
     {
@@ -212,25 +202,20 @@ void Battlefield::update(sf::Time delta)
             }
             continue;
         }
-        unitFut.push_back(threadPool.submit([=]{unit->update(delta);}));
-       
+        unitFuture.push_back(threadPool.submit([=]{unit->update(delta);}));
     }
 
     for(auto shell: instance->shells)
     {
         if(shell->isOver()) continue;
-        shellFut.push_back(threadPool.submit([=]{shell->update();}));
+        shellFuture.push_back(threadPool.submit([=]{shell->update();}));
     }
     
 
-    for(size_t i = 0; i < unitFut.size(); i++)
-    {
-        unitFut[i].get();
-    }
-    for(size_t i = 0; i < shellFut.size(); i++)
-    {
-        shellFut[i].get();
-    }
+    for(size_t i = 0; i < unitFuture.size(); i++)
+        unitFuture[i].get();
+    for(size_t i = 0; i < shellFuture.size(); i++)
+        shellFuture[i].get();
 }
 
 
