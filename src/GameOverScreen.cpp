@@ -37,6 +37,9 @@ void GameOverScreen::handleInput(sf::RenderWindow& window)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
 			// Game::screen = std::make_shared<MenuScreen>();
+            if(Game::menuScreen != NULL)
+                delete Game::menuScreen;
+            Game::menuScreen = new MenuScreen();
             Game::menuScreen->initial();
             Game::screen = Game::menuScreen;
 

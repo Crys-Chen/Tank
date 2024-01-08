@@ -30,16 +30,15 @@ Battlefield::~Battlefield()
 {
     
     // std::cout<<"delete!"<<std::endl;
-    // std::this_thread::sleep_for(std::chrono::seconds(2));
-    // // for(auto i : units)
-    // // {
-    // //     std::cout<<i->getType()<<std::endl;
-    // //     if(i->getType() == nexus)
-    // //         continue;
-    // //     delete i;
-    // // }
+    // for(auto i : units)
+    // {
+    //     // std::cout<<i->getType()<<std::endl;
+    //     // if(i->getType() == nexus)
+    //     //     continue;
+    //     delete i;
+    // }
     
-    // std::cout<<"finish deleting units!"<<std::endl;
+    // // std::cout<<"finish deleting units!"<<std::endl;
     // for(auto i : shells)
     //     delete i;
 

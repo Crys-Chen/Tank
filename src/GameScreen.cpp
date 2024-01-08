@@ -24,8 +24,10 @@ GameScreen::GameScreen():
 
 GameScreen::~GameScreen()
 {
-    gen[0].get();
-    gen[1].get();
+    delete battlefield;
+    // gen[0].get();
+    // gen[1].get();
+    
 }
 
 void GameScreen::initial()

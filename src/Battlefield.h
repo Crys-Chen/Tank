@@ -56,7 +56,6 @@ class Battlefield
     private:
         Distance distance;
         Units units;
-        // Units deadUnits;
         Shells shells;
         // Shells overShells;
 

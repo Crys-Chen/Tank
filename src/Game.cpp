@@ -22,10 +22,13 @@ Game::Game(): window(sf::VideoMode(Parameter::windowWidth, Parameter::windowHeig
     threadPool.init();
 
     menuScreen = new MenuScreen();
-    // gameScreen = new GameScreen();
-    // gameOverScreen = new GameOverScreen();
-    // menuScreen->initial();
+    menuScreen->initial();
     screen = menuScreen;
+    // if(gameScreen != NULL)
+    //     delete gameScreen;
+    // gameScreen = new GameScreen();
+    // gameScreen->initial();
+    // screen = gameScreen;
     
 	// bgMusic.openFromFile("Music/bg_music.wav");
 	// bgMusic.setLoop(true);
@@ -35,10 +38,10 @@ Game::Game(): window(sf::VideoMode(Parameter::windowWidth, Parameter::windowHeig
 
 Game::~Game()
 {
-    threadPool.shutdown();
     delete menuScreen;
     delete gameScreen;
     delete gameOverScreen;
+    threadPool.shutdown();
     // delete screen;
 }
 
@@ -92,5 +95,4 @@ void Game::run()
         handleInput();
         render();
     }
-
 }
