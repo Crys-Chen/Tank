@@ -158,7 +158,8 @@ public:
     auto submit(F &&f, Args &&...args) -> std::future<decltype(f(args...))>
     {
         // Create a function with bounded parameter ready to execute
-        std::function<decltype(f(args...))()> func = std::bind(std::forward<F>(f), std::forward<Args>(args)...); // 连接函数和参数定义，特殊函数类型，避免左右值错误
+        std::function<decltype(f(args...))()> func = std::bind(std::forward<F>(f), std::forward<Args>(args)...); 
+        // 连接函数和参数定义，特殊函数类型，避免左右值错误
  
         // Encapsulate it into a shared pointer in order to be able to copy construct
         auto task_ptr = std::make_shared<std::packaged_task<decltype(f(args...))()>>(func);
