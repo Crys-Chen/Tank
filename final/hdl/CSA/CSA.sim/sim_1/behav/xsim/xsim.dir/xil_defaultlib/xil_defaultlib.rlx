@@ -1,9 +1,0 @@
-0.6
-2019.2
-Nov  6 2019
-21:57:16
-E:/WorkStation/Digital IC/src/final/hdl/CSA/CSA.sim/sim_1/behav/xsim/glbl.v,1573089660,verilog,,,,glbl,,,,,,,,
-E:/WorkStation/Digital IC/src/final/hdl/src/CLA4.v,1701934205,verilog,,E:/WorkStation/Digital IC/src/final/hdl/src/CSA.v,,CLA4,,,,,,,,
-E:/WorkStation/Digital IC/src/final/hdl/src/CSA.v,1701935021,verilog,,E:/WorkStation/Digital IC/src/final/hdl/src/Multiplexer.v,,CSA,,,,,,,,
-,,,,E:/WorkStation/Digital IC/src/final/hdl/src/adder_tb3.v,,Multiplexer,,,,,,,,
-E:/WorkStation/Digital IC/src/final/hdl/src/adder_tb3.v,1701934245,verilog,,,,test,,,,,,,,

@@ -39,7 +39,6 @@ void Soldier::update(sf::Time delta)
 {
     if(isDead()) return;
     detect();
-    // threadPool.submit(soldierDetect, this);
     if(!rotate())
     {
         if(!attack(delta))

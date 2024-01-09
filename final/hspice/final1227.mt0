@@ -1,8 +1,0 @@
-$DATA1 SOURCE='HSPICE' VERSION='P-2019.06-SP1-1 win64' PARAM_COUNT=0
-.TITLE '**********************************'
- vomax            vomin            tco_total        tco_lookahead   
- tco_select       tplh             tr               tf              
- avgpower         temper           alter#          
-    failed           failed         2.278e-09        1.304e-09      
-  9.732e-10          failed           failed           failed       
- -1.861e-03         25.0000        1               

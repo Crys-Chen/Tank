@@ -121,15 +121,16 @@ void GameScreen::update(sf::Time delta)
 void GameScreen::render(sf::RenderWindow& window, sf::View &view)
 {
 	backGround.draw(window);
-    // while(view.getCenter().y < 960)
+    
     if(player->isDead())
-        view.setCenter(sf::Vector2f(640,480));
+        view.setCenter(sf::Vector2f(Parameter::windowWidth/2,Parameter::windowHeight/2));
     else
     {
-        if(player->getPos().y < 480 || player->getPos().y > 2400)
-            view.setCenter(sf::Vector2f(640, view.getCenter().y));
+        if(player->getPos().y < Parameter::windowHeight/2 || 
+            player->getPos().y > Parameter::mapHeight - Parameter::windowHeight/2)
+            view.setCenter(sf::Vector2f(Parameter::windowWidth/2, view.getCenter().y));
         else 
-            view.setCenter(sf::Vector2f(640, player->getPos().y));
+            view.setCenter(sf::Vector2f(Parameter::windowWidth/2, player->getPos().y));
     }
 
 
